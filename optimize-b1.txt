@@ -1,0 +1,35 @@
+Found images (jpg/png/jfif): 186
+Batch: files 48..87 of 186
+PROC 48/186: C:\Users\Asus\Desktop\Hannibal\кальмар.jpg
+OK   кальмар.jpg  (160 529 -> 121 953 bytes)
+PROC 49/186: C:\Users\Asus\Desktop\Hannibal\китайсямана.jpg
+OK   китайсямана.jpg  (96 079 -> 76 899 bytes)
+PROC 50/186: C:\Users\Asus\Desktop\Hannibal\кудал.jpg
+OK   кудал.jpg  (76 069 -> 61 899 bytes)
+PROC 51/186: C:\Users\Asus\Desktop\Hannibal\Люди.png
+SKIP Люди.png  (no gain)
+PROC 52/186: C:\Users\Asus\Desktop\Hannibal\Марго 1 сезон.png
+SKIP Марго 1 сезон.png  (no gain)
+PROC 53/186: C:\Users\Asus\Desktop\Hannibal\Марго 3 сезон.png
+SKIP Марго 3 сезон.png  (no gain)
+PROC 54/186: C:\Users\Asus\Desktop\Hannibal\Марго карточка 1.jfif
+SKIP Марго карточка 1.jfif  (no gain)
+PROC 55/186: C:\Users\Asus\Desktop\Hannibal\Марго карточка 2.jpg
+SKIP Марго карточка 2.jpg  (no gain)
+PROC 56/186: C:\Users\Asus\Desktop\Hannibal\Маятник1.png
+SKIP Маятник1.png  (no gain)
+PROC 57/186: C:\Users\Asus\Desktop\Hannibal\Маятник2.png
+SKIP Маятник2.png  (no gain)
+PROC 58/186: C:\Users\Asus\Desktop\Hannibal\Мэйсон 3 сезон.jfif
+SKIP Мэйсон 3 сезон.jfif  (no gain)
+PROC 59/186: C:\Users\Asus\Desktop\Hannibal\Мэйсон карточка 1.jfif
+SKIP Мэйсон карточка 1.jfif  (no gain)
+PROC 60/186: C:\Users\Asus\Desktop\Hannibal\Мэйсон карточка 2.jfif
+SKIP Мэйсон карточка 2.jfif  (no gain)
+PROC 61/186: C:\Users\Asus\Desktop\Hannibal\Мэйсон карточка 3.jfif
+SKIP Мэйсон карточка 3.jfif  (no gain)
+PROC 62/186: C:\Users\Asus\Desktop\Hannibal\Мэтью.jpg
+SKIP Мэтью.jpg  (no gain)
+PROC 63/186: C:\Users\Asus\Desktop\Hannibal\нянян.jpg
+OK   нянян.jpg  (99 912 -> 80 456 bytes)
+PROC 64/186: C:\Users\Asus\Desktop\Hannibal\омлет.jpg

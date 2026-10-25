@@ -1,0 +1,9 @@
+Found images (jpg/png/jfif): 186
+To process: 96
+Не удается найти перегрузку для "ForEach" и количества аргументов: "3".
+C:\Users\Asus\Desktop\Hannibal\optimize-images.ps1:129 знак:1
++ [System.Threading.Tasks.Parallel]::ForEach([System.Collections.IEnume ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MethodCountCouldNotFindBest
+ 

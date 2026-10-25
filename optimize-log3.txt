@@ -1,0 +1,98 @@
+Found images (jpg/png/jfif): 186
+PROC 0/186: C:\Users\Asus\Desktop\Hannibal\gastro-bg.jpg.jfif
+SKIP gastro-bg.jpg.jfif  (no gain)
+PROC 1/186: C:\Users\Asus\Desktop\Hannibal\А10.jfif
+SKIP А10.jfif  (no gain)
+PROC 2/186: C:\Users\Asus\Desktop\Hannibal\А12.jfif
+SKIP А12.jfif  (no gain)
+PROC 3/186: C:\Users\Asus\Desktop\Hannibal\А6.jfif
+SKIP А6.jfif  (no gain)
+PROC 4/186: C:\Users\Asus\Desktop\Hannibal\А7.jfif
+SKIP А7.jfif  (no gain)
+PROC 5/186: C:\Users\Asus\Desktop\Hannibal\аааа.jpg
+OK   аааа.jpg  (131 207 -> 100 925 bytes)
+PROC 6/186: C:\Users\Asus\Desktop\Hannibal\Агно.jpg
+OK   Агно.jpg  (100 637 -> 81 600 bytes)
+PROC 7/186: C:\Users\Asus\Desktop\Hannibal\Алана 1 сезон.jfif
+SKIP Алана 1 сезон.jfif  (no gain)
+PROC 8/186: C:\Users\Asus\Desktop\Hannibal\Алана 3 сезон.png
+SKIP Алана 3 сезон.png  (no gain)
+PROC 9/186: C:\Users\Asus\Desktop\Hannibal\Алана карточка 1.jfif
+SKIP Алана карточка 1.jfif  (no gain)
+PROC 10/186: C:\Users\Asus\Desktop\Hannibal\Алана карточка 2.jfif
+SKIP Алана карточка 2.jfif  (no gain)
+PROC 11/186: C:\Users\Asus\Desktop\Hannibal\Алана карточка 3.jfif
+SKIP Алана карточка 3.jfif  (no gain)
+PROC 12/186: C:\Users\Asus\Desktop\Hannibal\Архилл и Патрокол2.png
+SKIP Архилл и Патрокол2.png  (no gain)
+PROC 13/186: C:\Users\Asus\Desktop\Hannibal\Беверли 1 сезон.jfif
+SKIP Беверли 1 сезон.jfif  (no gain)
+PROC 14/186: C:\Users\Asus\Desktop\Hannibal\Беверли 3 сезон.jfif
+SKIP Беверли 3 сезон.jfif  (no gain)
+PROC 15/186: C:\Users\Asus\Desktop\Hannibal\Беверли карточка 1.jfif
+SKIP Беверли карточка 1.jfif  (no gain)
+PROC 16/186: C:\Users\Asus\Desktop\Hannibal\Беверли карточка 2.jfif
+SKIP Беверли карточка 2.jfif  (no gain)
+PROC 17/186: C:\Users\Asus\Desktop\Hannibal\Беверли карточка 3.jfif
+SKIP Беверли карточка 3.jfif  (no gain)
+PROC 18/186: C:\Users\Asus\Desktop\Hannibal\Беделия 1 сезон.jfif
+SKIP Беделия 1 сезон.jfif  (no gain)
+PROC 19/186: C:\Users\Asus\Desktop\Hannibal\Беделия 3 сезон.jfif
+SKIP Беделия 3 сезон.jfif  (no gain)
+PROC 20/186: C:\Users\Asus\Desktop\Hannibal\Беделия карточка 1.jfif
+SKIP Беделия карточка 1.jfif  (no gain)
+PROC 21/186: C:\Users\Asus\Desktop\Hannibal\Беделия карточка 2.jfif
+SKIP Беделия карточка 2.jfif  (no gain)
+PROC 22/186: C:\Users\Asus\Desktop\Hannibal\Беделия карточка 3.jfif
+SKIP Беделия карточка 3.jfif  (no gain)
+PROC 23/186: C:\Users\Asus\Desktop\Hannibal\Блюда.png
+SKIP Блюда.png  (no gain)
+PROC 24/186: C:\Users\Asus\Desktop\Hannibal\блюдо 16.jfif
+SKIP блюдо 16.jfif  (no gain)
+PROC 25/186: C:\Users\Asus\Desktop\Hannibal\блюдо 17.jfif
+SKIP блюдо 17.jfif  (no gain)
+PROC 26/186: C:\Users\Asus\Desktop\Hannibal\Брайан 1 сезон.png
+SKIP Брайан 1 сезон.png  (no gain)
+PROC 27/186: C:\Users\Asus\Desktop\Hannibal\Брайан карточка 1.jfif
+SKIP Брайан карточка 1.jfif  (no gain)
+PROC 28/186: C:\Users\Asus\Desktop\Hannibal\Брайан карточка 2.png
+SKIP Брайан карточка 2.png  (no gain)
+PROC 29/186: C:\Users\Asus\Desktop\Hannibal\Брайан карточка 3.jfif
+SKIP Брайан карточка 3.jfif  (no gain)
+PROC 30/186: C:\Users\Asus\Desktop\Hannibal\Вендиго1.jfif
+SKIP Вендиго1.jfif  (no gain)
+PROC 31/186: C:\Users\Asus\Desktop\Hannibal\Вендиго2.jfif
+SKIP Вендиго2.jfif  (no gain)
+PROC 32/186: C:\Users\Asus\Desktop\Hannibal\вода.png
+SKIP вода.png  (no gain)
+PROC 33/186: C:\Users\Asus\Desktop\Hannibal\Ганнибал 1 сезон.png
+SKIP Ганнибал 1 сезон.png  (no gain)
+PROC 34/186: C:\Users\Asus\Desktop\Hannibal\Ганнибал вендиго 2 сезон.png
+SKIP Ганнибал вендиго 2 сезон.png  (no gain)
+PROC 35/186: C:\Users\Asus\Desktop\Hannibal\Ганнибал карточка 4.jpg
+OK   Ганнибал карточка 4.jpg  (1 231 326 -> 396 947 bytes)
+PROC 36/186: C:\Users\Asus\Desktop\Hannibal\Дар.jpg
+OK   Дар.jpg  (40 936 -> 24 749 bytes)
+PROC 37/186: C:\Users\Asus\Desktop\Hannibal\Джек 1 сезон.png
+SKIP Джек 1 сезон.png  (no gain)
+PROC 38/186: C:\Users\Asus\Desktop\Hannibal\Джек 3 сезон.jfif
+SKIP Джек 3 сезон.jfif  (no gain)
+PROC 39/186: C:\Users\Asus\Desktop\Hannibal\Джек карточка 1.jfif
+SKIP Джек карточка 1.jfif  (no gain)
+PROC 40/186: C:\Users\Asus\Desktop\Hannibal\Джек карточка 2.jfif
+SKIP Джек карточка 2.jfif  (no gain)
+PROC 41/186: C:\Users\Asus\Desktop\Hannibal\Джек карточка 3.jfif
+SKIP Джек карточка 3.jfif  (no gain)
+PROC 42/186: C:\Users\Asus\Desktop\Hannibal\Джимми 1 сезон.jfif
+SKIP Джимми 1 сезон.jfif  (no gain)
+PROC 43/186: C:\Users\Asus\Desktop\Hannibal\Джимми 3 сезон.jfif
+SKIP Джимми 3 сезон.jfif  (no gain)
+PROC 44/186: C:\Users\Asus\Desktop\Hannibal\Джимми карточка 1.jfif
+SKIP Джимми карточка 1.jfif  (no gain)
+PROC 45/186: C:\Users\Asus\Desktop\Hannibal\Джимми карточка 2.jfif
+SKIP Джимми карточка 2.jfif  (no gain)
+PROC 46/186: C:\Users\Asus\Desktop\Hannibal\Джимми карточка 3.png
+SKIP Джимми карточка 3.png  (no gain)
+PROC 47/186: C:\Users\Asus\Desktop\Hannibal\До.png
+SKIP До.png  (no gain)
+PROC 48/186: C:\Users\Asus\Desktop\Hannibal\кальмар.jpg

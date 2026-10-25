@@ -1,0 +1,11 @@
+Found images (jpg/png/jfif): 186
+Batch: files 70..185 of 186
+PROC 70/186: C:\Users\Asus\Desktop\Hannibal\с1с102.jpg
+OK   с1с102.jpg  (237 539 -> 114 780 bytes)
+PROC 71/186: C:\Users\Asus\Desktop\Hannibal\с1с103.jpg
+OK   с1с103.jpg  (351 905 -> 178 049 bytes)
+PROC 72/186: C:\Users\Asus\Desktop\Hannibal\с1с11.jpg
+OK   с1с11.jpg  (25 678 -> 14 818 bytes)
+PROC 73/186: C:\Users\Asus\Desktop\Hannibal\с1с111.jpg
+OK   с1с111.jpg  (194 556 -> 89 593 bytes)
+PROC 74/186: C:\Users\Asus\Desktop\Hannibal\с1с112.jpg

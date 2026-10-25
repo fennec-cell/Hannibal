@@ -1,0 +1,15 @@
+Found images (jpg/png/jfif): 186
+Batch: files 64..103 of 186
+PROC 64/186: C:\Users\Asus\Desktop\Hannibal\омлет.jpg
+OK   омлет.jpg  (122 304 -> 95 385 bytes)
+PROC 65/186: C:\Users\Asus\Desktop\Hannibal\Оссо.png
+SKIP Оссо.png  (no gain)
+PROC 66/186: C:\Users\Asus\Desktop\Hannibal\Падение.png
+SKIP Падение.png  (no gain)
+PROC 67/186: C:\Users\Asus\Desktop\Hannibal\ракушки.jpg
+OK   ракушки.jpg  (104 085 -> 85 217 bytes)
+PROC 68/186: C:\Users\Asus\Desktop\Hannibal\рыба.jpg
+OK   рыба.jpg  (77 529 -> 63 969 bytes)
+PROC 69/186: C:\Users\Asus\Desktop\Hannibal\с1с101.jpg
+OK   с1с101.jpg  (279 407 -> 139 110 bytes)
+PROC 70/186: C:\Users\Asus\Desktop\Hannibal\с1с102.jpg

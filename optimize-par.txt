@@ -1,0 +1,9 @@
+Found images (jpg/png/jfif): 186
+To process: 96
+Cannot find an overload for "ForEach" and the argument count: "3".
+At C:\Users\Asus\Desktop\Hannibal\optimize-images.ps1:129 char:1
++ [System.Threading.Tasks.Parallel]::ForEach([System.Collections.IEnume ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MethodCountCouldNotFindBest
+ 

@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HANNIBAL — This is my design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* =========================
+   ПЕРЕМЕННЫЕ И БАЗОВЫЕ СТИЛИ
+   ========================= */
+:root{
+  --bg-0:#080405;
+  --bg-1:#14070a;
+  --bg-2:#1d0a10;
+  --blood:#7a1f2b;
+  --blood-deep:#4a0f18;
+  --rose:#c9a0a8;
+  --rose-dust:#e8c5ce;
+  --bone:#ead9d2;
+  --ink:#2a1014;
+  --gold:#b08a5b;
+  --shadow:rgba(0,0,0,.6);
+  --radius:4px;
+  --t-slow:.9s;
+  --t-med:.5s;
+  --t-fast:.25s;
+  --font-display:'Cinzel', serif;
+  --font-body:'Cormorant Garamond', serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.6;
+  color:var(--bone);
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(122,31,43,.18), transparent 55%),
+    radial-gradient(ellipse at 80% 90%, rgba(74,15,24,.25), transparent 55%),
+    linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 40%, var(--bg-2) 100%);
+  background-attachment:fixed;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+::selection{background:var(--blood);color:var(--bone)}
+
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;letter-spacing:.08em;color:var(--rose-dust)}
+h1{font-size:clamp(2.2rem,6vw,4.5rem);text-transform:uppercase}
+h2{font-size:clamp(1.6rem,3.5vw,2.6rem);margin-bottom:1.5rem;text-align:center;text-transform:uppercase}
+h3{font-size:1.2rem;color:var(--rose)}
+p{font-size:1.1rem}
+
+a{color:var(--rose);text-decoration:none}
+button{font-family:var(--font-display);cursor:pointer;border:none;background:none;color:inherit}
+
+/* =========================
+   ШАПКА
+   ========================= */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2rem;
+  background:linear-gradient(180deg, rgba(8,4,5,.95), rgba(8,4,5,.75) 70%, transparent);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(201,160,168,.08);
+}
+.logo{
+  font-family:var(--font-display);
+  font-size:1.4rem;
+  letter-spacing:.35em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+  position:relative;
+  padding:.3rem .6rem;
+}
+.logo::before,.logo::after{
+  content:"";position:absolute;top:50%;width:28px;height:1px;background:var(--blood);
+}
+.logo::before{right:100%;margin-right:10px}
+.logo::after{left:100%;margin-left:10px}
+
+.btn-menu{
+  font-family:var(--font-display);
+  font-size:.85rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--rose);
+  padding:.6rem 1.2rem;
+  border:1px solid rgba(201,160,168,.3);
+  transition:all var(--t-fast) ease;
+}
+.btn-menu:hover{background:rgba(122,31,43,.2);border-color:var(--rose);color:var(--bone)}
+
+/* Меню-карточки */
+.menu-overlay{
+  position:fixed;inset:0;z-index:99;
+  background:rgba(8,4,5,.92);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--t-med) ease;
+}
+.menu-overlay.open{opacity:1;pointer-events:auto}
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1.2rem;
+  max-width:900px;width:90%;
+  padding:2rem 0;
+}
+.menu-card{
+  background:linear-gradient(160deg, rgba(29,10,16,.9), rgba(74,15,24,.4));
+  border:1px solid rgba(201,160,168,.15);
+  padding:1.6rem 1rem;
+  text-align:center;
+  cursor:pointer;
+  transition:all var(--t-med) ease;
+  opacity:0;transform:translateY(20px);
+}
+.menu-overlay.open .menu-card{opacity:1;transform:translateY(0)}
+.menu-overlay.open .menu-card:nth-child(1){transition-delay:.05s}
+.menu-overlay.open .menu-card:nth-child(2){transition-delay:.1s}
+.menu-overlay.open .menu-card:nth-child(3){transition-delay:.15s}
+.menu-overlay.open .menu-card:nth-child(4){transition-delay:.2s}
+.menu-overlay.open .menu-card:nth-child(5){transition-delay:.25s}
+.menu-overlay.open .menu-card:nth-child(6){transition-delay:.3s}
+.menu-overlay.open .menu-card:nth-child(7){transition-delay:.35s}
+.menu-overlay.open .menu-card:nth-child(8){transition-delay:.4s}
+.menu-card:hover{
+  transform:translateY(-6px);
+  border-color:var(--rose);
+  background:linear-gradient(160deg, rgba(122,31,43,.4), rgba(74,15,24,.7));
+  box-shadow:0 10px 30px rgba(122,31,43,.3);
+}
+.menu-card .icon{
+  font-size:2rem;color:var(--rose);margin-bottom:.8rem;display:block;
+  font-family:var(--font-display);
+}
+.menu-card .label{
+  font-family:var(--font-display);
+  font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bone);
+}
+
+/* =========================
+   СЕКЦИИ
+   ========================= */
+.section{
+  min-height:100vh;
+  padding:7rem 1.5rem 4rem;
+  display:none;
+  animation:fadeIn var(--t-slow) ease both;
+}
+.section.active{display:block}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.section-inner{max-width:1200px;margin:0 auto}
+
+.section-title{
+  text-align:center;
+  margin-bottom:.5rem;
+}
+.section-subtitle{
+  text-align:center;
+  font-style:italic;
+  color:var(--rose);
+  margin-bottom:3rem;
+  font-size:1.1rem;
+}
+
+/* Разделитель */
+.divider{
+  display:flex;align-items:center;justify-content:center;
+  gap:1rem;margin:2rem auto;
+  color:var(--blood);
+}
+.divider::before,.divider::after{
+  content:"";flex:1;max-width:80px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blood),transparent);
+}
+
+/* =========================
+   HERO
+   ========================= */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:6rem 1.5rem 3rem;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(122,31,43,.25), transparent 60%),
+    radial-gradient(circle at 30% 70%, rgba(74,15,24,.3), transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(176,138,91,.08), transparent 40%);
+  z-index:0;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 40px, rgba(201,160,168,.02) 40px 41px),
+    repeating-linear-gradient(-45deg, transparent 0 40px, rgba(122,31,43,.03) 40px 41px);
+  z-index:0;
+  pointer-events:none;
+}
+.hero-content{position:relative;z-index:1;max-width:900px}
+.hero h1{
+  font-size:clamp(3rem,10vw,8rem);
+  letter-spacing:.15em;
+  margin-bottom:1rem;
+  color:var(--rose-dust);
+  text-shadow:0 0 40px rgba(122,31,43,.5), 0 4px 20px rgba(0,0,0,.8);
+  position:relative;
+}
+.hero h1::after{
+  content:"";display:block;width:60%;height:1px;margin:1.5rem auto 0;
+  background:linear-gradient(90deg,transparent,var(--rose),transparent);
+}
+.hero .slogan{
+  font-family:var(--font-body);
+  font-style:italic;
+  font-size:clamp(1.2rem,2.5vw,1.8rem);
+  color:var(--rose);
+  letter-spacing:.1em;
+  margin-bottom:3rem;
+}
+.hero-buttons{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:4rem;
+}
+.btn{
+  font-family:var(--font-display);
+  font-size:.85rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  padding:1rem 2rem;
+  border:1px solid var(--rose);
+  color:var(--bone);
+  background:rgba(74,15,24,.3);
+  transition:all var(--t-med) ease;
+  position:relative;
+  overflow:hidden;
+}
+.btn::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(201,160,168,.2),transparent);
+  transform:translateX(-100%);
+  transition:transform var(--t-med) ease;
+}
+.btn:hover::before{transform:translateX(100%)}
+.btn:hover{
+  background:rgba(122,31,43,.5);
+  box-shadow:0 0 25px rgba(122,31,43,.5);
+  color:var(--rose-dust);
+}
+.btn.primary{
+  background:linear-gradient(135deg,var(--blood-deep),var(--blood));
+  border-color:var(--blood);
+}
+
+/* Галерея */
+.archive{margin-top:3rem;width:100%}
+.archive h3{
+  text-align:center;
+  font-family:var(--font-display);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--rose);
+  margin-bottom:2rem;
+  font-size:1rem;
+}
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1rem;
+}
+.gallery-item{
+  aspect-ratio:16/10;
+  position:relative;
+  cursor:pointer;
+  overflow:hidden;
+  border:1px solid rgba(201,160,168,.15);
+  transition:all var(--t-med) ease;
+}
+.gallery-item .frame{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);
+  font-size:.8rem;letter-spacing:.2em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+  text-align:center;
+  padding:1rem;
+}
+.gallery-item:hover{
+  transform:scale(1.03);
+  border-color:var(--rose);
+  box-shadow:0 10px 30px rgba(122,31,43,.4);
+}
+.gallery-item .caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:.6rem .8rem;
+  background:linear-gradient(0deg,rgba(8,4,5,.9),transparent);
+  font-size:.85rem;color:var(--bone);
+  font-style:italic;
+}
+
+/* Фоны галереи — стилизованные "кадры" */
+.g1{background:radial-gradient(circle at 30% 40%,#3a1520,#0a0505)}
+.g2{background:radial-gradient(circle at 70% 60%,#2a0a14,#0a0505),linear-gradient(45deg,#1a0a10,#0a0505)}
+.g3{background:linear-gradient(135deg,#4a0f18 0%,#0a0505 70%)}
+.g4{background:radial-gradient(ellipse at 50% 50%,#5c1520,#0a0505)}
+.g5{background:linear-gradient(180deg,#2a0a14,#0a0505 80%)}
+.g6{background:radial-gradient(circle at 20% 80%,#7a1f2b,#0a0505 70%)}
+
+/* =========================
+   МОДАЛЬНЫЕ ОКНА
+   ========================= */
+.modal{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(8,4,5,.95);
+  backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  padding:2rem 1rem;
+  opacity:0;pointer-events:none;
+  transition:opacity var(--t-med) ease;
+  overflow-y:auto;
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-content{
+  max-width:800px;width:100%;
+  background:linear-gradient(160deg,rgba(29,10,16,.95),rgba(20,7,10,.95));
+  border:1px solid rgba(201,160,168,.2);
+  padding:2.5rem;
+  position:relative;
+  max-height:90vh;
+  overflow-y:auto;
+}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  width:40px;height:40px;
+  font-size:1.5rem;color:var(--rose);
+  border:1px solid rgba(201,160,168,.3);
+  transition:all var(--t-fast) ease;
+}
+.modal-close:hover{background:var(--blood);color:var(--bone)}
+.modal h2{text-align:left;margin-bottom:1.5rem;font-size:1.8rem}
+.modal p{margin-bottom:1rem;color:var(--bone)}
+.modal .quote{
+  font-style:italic;
+  color:var(--rose);
+  border-left:2px solid var(--blood);
+  padding-left:1rem;
+  margin:1.5rem 0;
+}
+
+/* Галерея модальная */
+.gallery-modal .modal-content{
+  max-width:95vw;max-height:95vh;padding:1rem;
+  background:transparent;border:none;
+  display:flex;flex-direction:column;align-items:center;
+}
+.gallery-frame{
+  width:100%;max-width:1000px;
+  aspect-ratio:16/10;
+  position:relative;
+  border:1px solid rgba(201,160,168,.3);
+  overflow:hidden;
+}
+.gallery-frame .frame{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);
+  font-size:1.2rem;letter-spacing:.2em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+}
+.gallery-caption{
+  margin-top:1rem;
+  font-style:italic;
+  color:var(--rose);
+  text-align:center;
+}
+.gallery-nav{
+  display:flex;gap:1rem;margin-top:1rem;
+}
+.gallery-nav button{
+  width:50px;height:50px;
+  border:1px solid rgba(201,160,168,.3);
+  color:var(--rose);
+  font-size:1.2rem;
+  transition:all var(--t-fast) ease;
+}
+.gallery-nav button:hover{background:var(--blood);color:var(--bone)}
+
+/* =========================
+   ПЕРСОНАЖИ
+   ========================= */
+.characters-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:2rem;
+  perspective:1200px;
+}
+.char-card{
+  height:380px;
+  position:relative;
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transition:transform var(--t-med) ease;
+}
+.char-card.flipped{transform:rotateY(180deg)}
+.char-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border:1px solid rgba(201,160,168,.2);
+  padding:1.5rem;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.char-front{
+  background:linear-gradient(160deg,rgba(29,10,16,.8),rgba(20,7,10,.9));
+  justify-content:space-between;
+}
+.char-back{
+  background:linear-gradient(160deg,rgba(74,15,24,.6),rgba(29,10,16,.95));
+  transform:rotateY(180deg);
+  overflow-y:auto;
+}
+.char-portrait{
+  flex:1;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1rem;
+  position:relative;
+}
+.char-portrait .initials{
+  font-family:var(--font-display);
+  font-size:4rem;
+  color:var(--rose-dust);
+  letter-spacing:.1em;
+  text-shadow:0 0 30px rgba(122,31,43,.6);
+  position:relative;
+}
+.char-portrait .initials::before{
+  content:"";position:absolute;inset:-20px;
+  border:1px solid rgba(201,160,168,.15);
+  transform:rotate(45deg);
+}
+.char-name{
+  font-family:var(--font-display);
+  font-size:1.1rem;letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--rose-dust);
+  text-align:center;
+  margin-bottom:.3rem;
+}
+.char-role{
+  font-style:italic;
+  color:var(--rose);
+  text-align:center;
+  font-size:.95rem;
+}
+.char-back h4{
+  font-family:var(--font-display);
+  font-size:.9rem;letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--rose);
+  margin-bottom:.8rem;
+  text-align:center;
+}
+.char-back p{
+  font-size:.95rem;line-height:1.5;
+  color:var(--bone);
+}
+.char-hint{
+  position:absolute;bottom:.5rem;right:.8rem;
+  font-size:.7rem;letter-spacing:.15em;
+  color:rgba(201,160,168,.5);
+  text-transform:uppercase;
+}
+
+/* =========================
+   СЮЖЕТ
+   ========================= */
+.plot-intro{
+  max-width:800px;margin:0 auto 3rem;
+  text-align:center;
+  font-size:1.15rem;
+  color:var(--bone);
+  line-height:1.8;
+}
+.season-block{margin-bottom:4rem}
+.season-header{
+  display:flex;align-items:baseline;justify-content:center;
+  gap:1rem;margin-bottom:2rem;
+  flex-wrap:wrap;
+}
+.season-header h3{
+  font-family:var(--font-display);
+  font-size:1.5rem;letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--rose-dust);
+}
+.season-header .year{
+  font-style:italic;color:var(--rose);
+}
+.episodes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.2rem;
+}
+.episode-card{
+  background:linear-gradient(160deg,rgba(29,10,16,.7),rgba(20,7,10,.9));
+  border:1px solid rgba(201,160,168,.15);
+  padding:1.2rem;
+  transition:all var(--t-med) ease;
+  position:relative;
+  overflow:hidden;
+}
+.episode-card:hover{
+  border-color:var(--rose);
+  transform:translateY(-4px);
+  box-shadow:0 8px 20px rgba(122,31,43,.3);
+}
+.episode-card .ep-number{
+  font-family:var(--font-display);
+  font-size:.75rem;letter-spacing:.25em;
+  color:var(--blood);
+  text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+.episode-card .ep-title{
+  font-family:var(--font-display);
+  font-size:1rem;letter-spacing:.1em;
+  color:var(--rose-dust);
+  margin-bottom:.6rem;
+  text-transform:uppercase;
+}
+.episode-card .ep-desc{
+  font-size:.9rem;color:var(--bone);
+  line-height:1.5;
+  font-style:italic;
+}
+.episode-card .ep-visual{
+  position:absolute;top:.8rem;right:.8rem;
+  width:40px;height:40px;
+  border:1px solid rgba(201,160,168,.2);
+  opacity:.5;
+}
+
+/* =========================
+   СИМВОЛИКА
+   ========================= */
+.symbols-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+}
+.symbol-card{
+  background:linear-gradient(160deg,rgba(29,10,16,.6),rgba(20,7,10,.85));
+  border:1px solid rgba(201,160,168,.15);
+  padding:2rem;
+  transition:all var(--t-med) ease;
+}
+.symbol-card:hover{border-color:var(--rose)}
+.symbol-icon{
+  font-family:var(--font-display);
+  font-size:2.5rem;
+  color:var(--rose);
+  margin-bottom:1rem;
+  text-align:center;
+}
+.symbol-card h3{
+  font-family:var(--font-display);
+  font-size:1.1rem;letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--rose-dust);
+  margin-bottom:1rem;
+  text-align:center;
+}
+.symbol-card p{
+  font-size:1rem;color:var(--bone);
+  line-height:1.7;
+}
+
+/* =========================
+   ВЫСОКАЯ КУХНЯ
+   ========================= */
+.kitchen-top{
+  text-align:center;margin-bottom:3rem;
+}
+.recipes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:1.5rem;
+  margin-bottom:3rem;
+}
+.recipe-card{
+  background:linear-gradient(160deg,rgba(29,10,16,.7),rgba(20,7,10,.9));
+  border:1px solid rgba(201,160,168,.15);
+  padding:1.5rem;
+  transition:all var(--t-med) ease;
+}
+.recipe-card:hover{border-color:var(--rose)}
+.recipe-card h3{
+  font-family:var(--font-display);
+  font-size:1rem;letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--rose-dust);
+  margin-bottom:1rem;
+  text-align:center;
+}
+.recipe-section{margin-bottom:1rem}
+.recipe-section h4{
+  font-family:var(--font-display);
+  font-size:.75rem;letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--rose);
+  margin-bottom:.5rem;
+  border-bottom:1px solid rgba(201,160,168,.15);
+  padding-bottom:.3rem;
+}
+.recipe-section ul{list-style:none;padding-left:0}
+.recipe-section li{
+  font-size:.95rem;color:var(--bone);
+  padding:.2rem 0 .2rem 1.2rem;
+  position:relative;
+}
+.recipe-section li::before{
+  content:"❦";position:absolute;left:0;
+  color:var(--blood);font-size:.8rem;
+}
+.recipe-section ol{padding-left:1.5rem}
+.recipe-section ol li{padding-left:.3rem}
+.recipe-section ol li::before{display:none}
+
+.btn-random{
+  display:block;margin:0 auto;
+  padding:1rem 2.5rem;
+  background:linear-gradient(135deg,var(--blood-deep),var(--blood));
+  border:1px solid var(--blood);
+  color:var(--bone);
+  font-family:var(--font-display);
+  font-size:.85rem;letter-spacing:.25em;
+  text-transform:uppercase;
+  transition:all var(--t-med) ease;
+}
+.btn-random:hover{
+  box-shadow:0 0 25px rgba(122,31,43,.5);
+  transform:translateY(-2px);
+}
+
+/* =========================
+   ИГРА УИЛЛА ГРЭМА
+   ========================= */
+.game-container{
+  max-width:900px;margin:0 auto;
+  background:linear-gradient(160deg,rgba(29,10,16,.5),rgba(20,7,10,.8));
+  border:1px solid rgba(201,160,168,.15);
+  padding:2rem;
+  min-height:500px;
+}
+.game-progress{
+  display:flex;justify-content:space-between;
+  margin-bottom:2rem;
+  position:relative;
+}
+.game-progress::before{
+  content:"";position:absolute;top:50%;left:0;right:0;
+  height:1px;background:rgba(201,160,168,.2);
+  z-index:0;
+}
+.game-step{
+  position:relative;z-index:1;
+  width:40px;height:40px;
+  border:1px solid rgba(201,160,168,.3);
+  background:var(--bg-1);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);
+  font-size:.9rem;color:var(--rose);
+  transition:all var(--t-med) ease;
+}
+.game-step.active{
+  background:var(--blood);color:var(--bone);
+  border-color:var(--rose);
+  box-shadow:0 0 15px rgba(122,31,43,.5);
+}
+.game-step.done{
+  background:rgba(122,31,43,.4);
+  color:var(--rose-dust);
+}
+.game-phase{
+  display:none;
+  animation:fadeIn var(--t-med) ease;
+}
+.game-phase.active{display:block}
+.game-phase h3{
+  font-family:var(--font-display);
+  font-size:1.2rem;letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--rose-dust);
+  margin-bottom:1rem;
+  text-align:center;
+}
+.game-phase p.intro{
+  text-align:center;font-style:italic;
+  color:var(--rose);margin-bottom:2rem;
+}
+
+.suspects{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+.suspect{
+  padding:1.2rem;
+  border:1px solid rgba(201,160,168,.2);
+  background:rgba(8,4,5,.4);
+  cursor:pointer;
+  transition:all var(--t-med) ease;
+  text-align:center;
+}
+.suspect:hover{border-color:var(--rose);background:rgba(122,31,43,.2)}
+.suspect.selected{
+  border-color:var(--rose);
+  background:rgba(122,31,43,.4);
+  box-shadow:0 0 15px rgba(122,31,43,.4);
+}
+.suspect .name{
+  font-family:var(--font-display);
+  font-size:.9rem;letter-spacing:.1em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+.suspect .desc{
+  font-size:.85rem;color:var(--bone);
+  font-style:italic;
+}
+
+.crime-scene{
+  position:relative;
+  width:100%;aspect-ratio:16/10;
+  background:
+    linear-gradient(135deg,rgba(29,10,16,.6),rgba(8,4,5,.9));
+  border:1px solid rgba(201,160,168,.2);
+  margin-bottom:1.5rem;
+  overflow:hidden;
+}
+.crime-scene::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,160,168,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,160,168,.05) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.evidence{
+  position:absolute;
+  width:40px;height:40px;
+  border:1px solid rgba(201,160,168,.4);
+  background:rgba(122,31,43,.3);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);
+  font-size:.8rem;color:var(--rose-dust);
+  transition:all var(--t-med) ease;
+}
+.evidence:hover{transform:scale(1.15);border-color:var(--rose)}
+.evidence.found{
+  background:rgba(122,31,43,.7);
+  border-color:var(--rose);
+  box-shadow:0 0 10px rgba(201,160,168,.4);
+}
+
+.pendulum-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  margin:2rem 0;
+}
+.pendulum{
+  width:200px;height:200px;
+  position:relative;
+}
+.pendulum-pivot{
+  position:absolute;top:0;left:50%;
+  width:2px;height:150px;
+  background:linear-gradient(180deg,var(--rose),transparent);
+  transform-origin:top center;
+  animation:swing 3s ease-in-out infinite;
+}
+.pendulum-bob{
+  position:absolute;bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:30px;height:30px;
+  background:radial-gradient(circle,var(--rose),var(--blood));
+  border-radius:50%;
+  box-shadow:0 0 20px rgba(201,160,168,.5);
+}
+@keyframes swing{
+  0%,100%{transform:rotate(-25deg)}
+  50%{transform:rotate(25deg)}
+}
+.pendulum-choices{
+  display:flex;gap:1rem;margin-top:2rem;
+  flex-wrap:wrap;justify-content:center;
+}
+
+.game-result{
+  text-align:center;
+  padding:2rem;
+  background:rgba(8,4,5,.5);
+  border:1px solid rgba(201,160,168,.2);
+}
+.game-result h4{
+  font-family:var(--font-display);
+  font-size:1.3rem;letter-spacing:.2em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.game-result p{
+  font-style:italic;color:var(--rose);
+  margin-bottom:1.5rem;
+}
+
+.game-btn{
+  display:block;margin:1rem auto 0;
+  padding:.8rem 2rem;
+  border:1px solid var(--rose);
+  color:var(--bone);
+  background:rgba(74,15,24,.3);
+  font-family:var(--font-display);
+  font-size:.8rem;letter-spacing:.2em;
+  text-transform:uppercase;
+  transition:all var(--t-fast) ease;
+}
+.game-btn:hover{background:var(--blood)}
+.game-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* =========================
+   ПЛЕЙЛИСТ
+   ========================= */
+.player-wrap{
+  max-width:700px;margin:0 auto;
+}
+.vinyl-player{
+  background:linear-gradient(160deg,rgba(29,10,16,.6),rgba(8,4,5,.9));
+  border:1px solid rgba(201,160,168,.2);
+  padding:2rem;
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:2rem;
+  align-items:center;
+}
+.vinyl{
+  width:200px;height:200px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center, #1a0a10 15%, transparent 16%),
+    radial-gradient(circle at center, var(--blood-deep) 17%, transparent 18%),
+    repeating-radial-gradient(circle at center,
+      rgba(8,4,5,.9) 0 2px,
+      rgba(29,10,16,.7) 2px 4px);
+  position:relative;
+  box-shadow:0 0 30px rgba(0,0,0,.8), inset 0 0 20px rgba(0,0,0,.5);
+  animation:spin 4s linear infinite;
+  animation-play-state:paused;
+}
+.vinyl.playing{animation-play-state:running}
+.vinyl::before{
+  content:"";position:absolute;
+  top:50%;left:50%;
+  width:60px;height:60px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,var(--blood) 20%,var(--blood-deep) 60%,#0a0505);
+  border:1px solid rgba(201,160,168,.2);
+}
+.vinyl::after{
+  content:"";position:absolute;
+  top:50%;left:50%;
+  width:8px;height:8px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:var(--bone);
+}
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+.tonearm{
+  position:absolute;
+  top:-10px;right:-20px;
+  width:120px;height:6px;
+  background:linear-gradient(90deg,var(--gold),#5c4428);
+  transform-origin:right center;
+  transform:rotate(-25deg);
+  transition:transform var(--t-med) ease;
+  border-radius:3px;
+  z-index:2;
+}
+.tonearm::before{
+  content:"";position:absolute;
+  right:-8px;top:-8px;
+  width:20px;height:20px;
+  background:radial-gradient(circle,var(--gold),#5c4428);
+  border-radius:50%;
+}
+.tonearm::after{
+  content:"";position:absolute;
+  left:-10px;top:-4px;
+  width:15px;height:14px;
+  background:var(--gold);
+  border-radius:2px;
+}
+.vinyl-wrap{position:relative}
+.vinyl-player.playing .tonearm{transform:rotate(-5deg)}
+
+.player-info{min-width:0}
+.track-title{
+  font-family:var(--font-display);
+  font-size:1.1rem;letter-spacing:.1em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+  margin-bottom:.3rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.track-artist{
+  font-style:italic;color:var(--rose);
+  margin-bottom:1.5rem;
+  font-size:.95rem;
+}
+.progress-bar{
+  width:100%;height:4px;
+  background:rgba(201,160,168,.15);
+  position:relative;
+  margin-bottom:1rem;
+  cursor:pointer;
+}
+.progress-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--blood),var(--rose));
+  transition:width .1s linear;
+}
+.progress-time{
+  display:flex;justify-content:space-between;
+  font-size:.8rem;color:var(--rose);
+  margin-bottom:1.5rem;
+  font-family:var(--font-display);
+  letter-spacing:.1em;
+}
+.player-controls{
+  display:flex;align-items:center;justify-content:center;
+  gap:1rem;margin-bottom:1.5rem;
+}
+.ctrl-btn{
+  width:40px;height:40px;
+  border:1px solid rgba(201,160,168,.3);
+  color:var(--rose);
+  font-size:1rem;
+  transition:all var(--t-fast) ease;
+  display:flex;align-items:center;justify-content:center;
+}
+.ctrl-btn:hover{background:var(--blood);color:var(--bone)}
+.ctrl-btn.play{
+  width:50px;height:50px;
+  font-size:1.2rem;
+  border-color:var(--rose);
+}
+.volume-wrap{
+  display:flex;align-items:center;gap:.8rem;
+}
+.volume-wrap .icon{color:var(--rose);font-size:1rem}
+.volume-slider{
+  flex:1;height:4px;
+  background:rgba(201,160,168,.15);
+  position:relative;
+  cursor:pointer;
+}
+.volume-fill{
+  height:100%;width:70%;
+  background:var(--rose);
+}
+
+.filters{
+  display:flex;gap:.5rem;justify-content:center;
+  margin-top:2rem;flex-wrap:wrap;
+}
+.filter-btn{
+  padding:.5rem 1.2rem;
+  border:1px solid rgba(201,160,168,.2);
+  font-family:var(--font-display);
+  font-size:.75rem;letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--rose);
+  transition:all var(--t-fast) ease;
+}
+.filter-btn:hover{border-color:var(--rose)}
+.filter-btn.active{
+  background:var(--blood);
+  border-color:var(--blood);
+  color:var(--bone);
+}
+
+.playlist-note{
+  text-align:center;
+  margin-top:1.5rem;
+  font-size:.85rem;
+  font-style:italic;
+  color:rgba(201,160,168,.6);
+}
+
+/* =========================
+   ПСИХО-ТЕСТ
+   ========================= */
+.test-container{
+  max-width:700px;margin:0 auto;
+  background:linear-gradient(160deg,rgba(29,10,16,.5),rgba(20,7,10,.8));
+  border:1px solid rgba(201,160,168,.15);
+  padding:2rem;
+}
+.test-progress{
+  display:flex;align-items:center;gap:1rem;
+  margin-bottom:2rem;
+}
+.test-progress-bar{
+  flex:1;height:4px;
+  background:rgba(201,160,168,.15);
+  position:relative;
+}
+.test-progress-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--blood),var(--rose));
+  transition:width var(--t-med) ease;
+}
+.test-progress-text{
+  font-family:var(--font-display);
+  font-size:.8rem;letter-spacing:.15em;
+  color:var(--rose);
+  min-width:60px;text-align:right;
+}
+.test-question{
+  display:none;
+  animation:fadeIn var(--t-med) ease;
+}
+.test-question.active{display:block}
+.test-question h3{
+  font-family:var(--font-display);
+  font-size:1.1rem;letter-spacing:.1em;
+  color:var(--rose-dust);
+  margin-bottom:1.5rem;
+  line-height:1.5;
+  text-align:center;
+  font-style:italic;
+  text-transform:none;
+}
+.test-options{
+  display:grid;gap:.8rem;
+}
+.test-option{
+  padding:1rem 1.2rem;
+  border:1px solid rgba(201,160,168,.2);
+  background:rgba(8,4,5,.4);
+  cursor:pointer;
+  transition:all var(--t-med) ease;
+  text-align:left;
+  font-family:var(--font-body);
+  font-size:1rem;
+  color:var(--bone);
+}
+.test-option:hover{
+  border-color:var(--rose);
+  background:rgba(122,31,43,.2);
+}
+.test-option.selected{
+  border-color:var(--rose);
+  background:rgba(122,31,43,.4);
+  color:var(--rose-dust);
+}
+.test-nav{
+  display:flex;justify-content:space-between;
+  margin-top:2rem;
+}
+
+.test-result{
+  display:none;
+  text-align:center;
+  padding:2rem 1rem;
+  animation:fadeIn var(--t-slow) ease;
+}
+.test-result.active{display:block}
+.test-result .result-label{
+  font-family:var(--font-display);
+  font-size:.8rem;letter-spacing:.3em;
+  color:var(--rose);
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.test-result .result-name{
+  font-family:var(--font-display);
+  font-size:2rem;letter-spacing:.15em;
+  color:var(--rose-dust);
+  text-transform:uppercase;
+  margin-bottom:1.5rem;
+  text-shadow:0 0 20px rgba(122,31,43,.5);
+}
+.test-result .result-desc{
+  font-size:1.1rem;color:var(--bone);
+  line-height:1.8;
+  font-style:italic;
+  max-width:600px;margin:0 auto 2rem;
+}
+.test-result .result-quote{
+  border-left:2px solid var(--blood);
+  padding-left:1rem;
+  text-align:left;
+  max-width:500px;margin:0 auto 2rem;
+  color:var(--rose);
+  font-style:italic;
+}
+
+/* =========================
+   ФУТЕР
+   ========================= */
+.site-footer{
+  text-align:center;
+  padding:2rem 1rem;
+  border-top:1px solid rgba(201,160,168,.1);
+  margin-top:3rem;
+  font-size:.85rem;
+  color:rgba(201,160,168,.5);
+  font-style:italic;
+}
+
+/* =========================
+   АДАПТИВНОСТЬ
+   ========================= */
+@media (max-width:768px){
+  .site-header{padding:.8rem 1rem}
+  .logo{font-size:1.1rem;letter-spacing:.2em}
+  .logo::before,.logo::after{width:16px}
+  .btn-menu{padding:.5rem .8rem;font-size:.75rem;letter-spacing:.15em}
+  .section{padding:5.5rem 1rem 3rem}
+  .vinyl-player{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .player-info{width:100%}
+  .char-card{height:340px}
+  .menu-grid{grid-template-columns:repeat(2,1fr);gap:.8rem}
+  .menu-card{padding:1.2rem .8rem}
+  .menu-card .icon{font-size:1.5rem;margin-bottom:.5rem}
+  .menu-card .label{font-size:.7rem}
+  .modal-content{padding:1.5rem}
+  .game-container{padding:1.2rem}
+  .test-container{padding:1.2rem}
+  .test-result .result-name{font-size:1.5rem}
+}
+@media (max-width:480px){
+  body{font-size:16px}
+  .hero-buttons{flex-direction:column;align-items:stretch}
+  .btn{width:100%}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .characters-grid{grid-template-columns:1fr}
+  .episodes-grid{grid-template-columns:1fr}
+  .recipes-grid{grid-template-columns:1fr}
+  .game-progress{gap:.3rem}
+  .game-step{width:32px;height:32px;font-size:.75rem}
+}
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  .vinyl{animation:none}
+  .pendulum-pivot{animation:none;transform:rotate(0)}
+}
+</style>
+</head>
+<body>
+
+<!-- ШАПКА -->
+<header class="site-header">
+  <div class="logo">HANNIBAL</div>
+  <button class="btn-menu" id="menuBtn" aria-label="Открыть меню разделов">Разделы</button>
+</header>
+
+<!-- МЕНЮ-КАРТОЧКИ -->
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+  <nav class="menu-grid">
+    <button class="menu-card" data-target="hero"><span class="icon">✦</span><span class="label">Главная</span></button>
+    <button class="menu-card" data-target="characters"><span class="icon">☥</span><span class="label">Персонажи</span></button>
+    <button class="menu-card" data-target="plot"><span class="icon">❦</span><span class="label">Сюжет</span></button>
+    <button class="menu-card" data-target="symbols"><span class="icon">◈</span><span class="label">Символика</span></button>
+    <button class="menu-card" data-target="kitchen"><span class="icon">♨</span><span class="label">Высокая кухня</span></button>
+    <button class="menu-card" data-target="game"><span class="icon">⌖</span><span class="label">Игра Уилла</span></button>
+    <button class="menu-card" data-target="playlist"><span class="icon">♪</span><span class="label">Плейлист</span></button>
+    <button class="menu-card" data-target="test"><span class="icon">✧</span><span class="label">Психо-тест</span></button>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="section active" id="hero">
+  <div class="hero">
+    <div class="hero-content">
+      <h1>HANNIBAL</h1>
+      <p class="slogan">« This is my design »</p>
+      <div class="hero-buttons">
+        <button class="btn primary" data-modal="design">Анатомия замысла</button>
+        <button class="btn" data-modal="aesthetic">Обитель эстетства</button>
+      </div>
+
+      <div class="archive">
+        <h3>— Визуальный архив —</h3>
+        <div class="gallery" id="gallery">
+          <div class="gallery-item" data-index="0">
+            <div class="frame g1">Кабинет</div>
+            <div class="caption">Кабинет доктора Лектера</div>
+          </div>
+          <div class="gallery-item" data-index="1">
+            <div class="frame g2">Олень</div>
+            <div class="caption">Рогатый дух в тумане</div>
+          </div>
+          <div class="gallery-item" data-index="2">
+            <div class="frame g3">Кровь</div>
+            <div class="caption">Алые узоры на паркете</div>
+          </div>
+          <div class="gallery-item" data-index="3">
+            <div class="frame g4">Ужин</div>
+            <div class="caption">Изысканная сервировка</div>
+          </div>
+          <div class="gallery-item" data-index="4">
+            <div class="frame g5">Туман</div>
+            <div class="caption">Миннесотские леса</div>
+          </div>
+          <div class="gallery-item" data-index="5">
+            <div class="frame g6">Бабочки</div>
+            <div class="caption">Метаморфозы</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПЕРСОНАЖИ -->
+<section class="section" id="characters">
+  <div class="section-inner">
+    <h2 class="section-title">Досье</h2>
+    <p class="section-subtitle">— Те, кого он выбрал, и те, кто выбрал его —</p>
+    <div class="characters-grid" id="charactersGrid"></div>
+  </div>
+</section>
+
+<!-- СЮЖЕТ -->
+<section class="section" id="plot">
+  <div class="section-inner">
+    <h2 class="section-title">Сюжет</h2>
+    <p class="section-subtitle">— Три акта одной трапезы —</p>
+    <p class="plot-intro">
+      «Ганнибал» — телесериал 2013–2015 годов, снятый по мотивам произведений Томаса Харриса.
+      В центре истории — специальные агенты ФБР Уилл Грэм и Джек Кроуфорд, а также психиатр Ганнибал Лектер,
+      который одновременно является их союзником, манипулятором и скрытым хищником.
+      Сериал исследует границы эмпатии, эстетику насилия и природу близости между охотником и добычей.
+    </p>
+    <div id="seasonsContainer"></div>
+  </div>
+</section>
+
+<!-- СИМВОЛИКА -->
+<section class="section" id="symbols">
+  <div class="section-inner">
+    <h2 class="section-title">Символика</h2>
+    <p class="section-subtitle">— Язык образов, в котором говорит сериал —</p>
+    <div class="symbols-grid" id="symbolsGrid"></div>
+  </div>
+</section>
+
+<!-- ВЫСОКАЯ КУХНЯ -->
+<section class="section" id="kitchen">
+  <div class="section-inner">
+    <h2 class="section-title">Высокая кухня</h2>
+    <p class="section-subtitle">— Блюда, которые объединяют за столом —</p>
+    <p class="plot-intro">
+      Кулинария в сериале — форма искусства и способ установить близость.
+      Ниже — реконструкция нескольких блюд, увиденных на экране.
+      Все рецепты используют обычные ингредиенты.
+    </p>
+    <div class="recipes-grid" id="recipesGrid"></div>
+    <button class="btn-random" id="randomRecipe">Что на ужин?</button>
+  </div>
+</section>
+
+<!-- ИГРА УИЛЛА ГРЭМА -->
+<section class="section" id="game">
+  <div class="section-inner">
+    <h2 class="section-title">Игра Уилла Грэма</h2>
+    <p class="section-subtitle">— Четыре шага в сознании профилировщика —</p>
+    <div class="game-container">
+      <div class="game-progress">
+        <div class="game-step active" data-step="1">1</div>
+        <div class="game-step" data-step="2">2</div>
+        <div class="game-step" data-step="3">3</div>
+        <div class="game-step" data-step="4">4</div>
+      </div>
+
+      <!-- Шаг 1: Допрос -->
+      <div class="game-phase active" data-phase="1">
+        <h3>Шаг I. Допрос подозреваемых</h3>
+        <p class="intro">Перед вами четверо. Слушайте, что они говорят, — и что они не говорят.</p>
+        <div class="suspects" id="suspects"></div>
+        <button class="game-btn" id="toStep2" disabled>Перейти к уликам</button>
+      </div>
+
+      <!-- Шаг 2: Улики -->
+      <div class="game-phase" data-phase="2">
+        <h3>Шаг II. Анализ улик</h3>
+        <p class="intro">На плане места преступления скрыты улики. Найдите все четыре.</p>
+        <div class="crime-scene" id="crimeScene"></div>
+        <p style="text-align:center;color:var(--rose);font-style:italic" id="evidenceCount">Найдено: 0 / 4</p>
+        <button class="game-btn" id="toStep3" disabled>К маятнику</button>
+      </div>
+
+      <!-- Шаг 3: Маятник -->
+      <div class="game-phase" data-phase="3">
+        <h3>Шаг III. Маятник</h3>
+        <p class="intro">Сосредоточьтесь. Маятник качается между двумя истинами. Выберите сторону.</p>
+        <div class="pendulum-wrap">
+          <div class="pendulum">
+            <div class="pendulum-pivot">
+              <div class="pendulum-bob"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pendulum-choices">
+          <button class="game-btn pendulum-choice" data-choice="left">Он действовал один</button>
+          <button class="game-btn pendulum-choice" data-choice="right">У него был сообщник</button>
+        </div>
+      </div>
+
+      <!-- Шаг 4: Итог -->
+      <div class="game-phase" data-phase="4">
+        <h3>Шаг IV. Итог</h3>
+        <div class="game-result">
+          <h4 id="gameResultTitle">Ваш профиль</h4>
+          <p id="gameResultText"></p>
+          <button class="game-btn" id="restartGame">Пройти заново</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПЛЕЙЛИСТ -->
+<section class="section" id="playlist">
+  <div class="section-inner">
+    <h2 class="section-title">Плейлист</h2>
+    <p class="section-subtitle">— Звуковая дорожка к ужину —</p>
+    <div class="player-wrap">
+      <div class="vinyl-player" id="vinylPlayer">
+        <div class="vinyl-wrap">
+          <div class="vinyl" id="vinyl"></div>
+          <div class="tonearm"></div>
+        </div>
+        <div class="player-info">
+          <div class="track-title" id="trackTitle">—</div>
+          <div class="track-artist" id="trackArtist">—</div>
+          <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-time">
+            <span id="currentTime">0:00</span>
+            <span id="totalTime">0:00</span>
+          </div>
+          <div class="player-controls">
+            <button class="ctrl-btn" id="prevBtn" aria-label="Предыдущий трек">⏮</button>
+            <button class="ctrl-btn play" id="playBtn" aria-label="Воспроизведение">▶</button>
+            <button class="ctrl-btn" id="nextBtn" aria-label="Следующий трек">⏭</button>
+          </div>
+          <div class="volume-wrap">
+            <span class="icon">♪</span>
+            <div class="volume-slider" id="volumeSlider">
+              <div class="volume-fill" id="volumeFill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="soundtrack">Саундтреки</button>
+        <button class="filter-btn" data-filter="classic">Классика</button>
+      </div>
+      <p class="playlist-note">Демонстрационный плеер. Реальные аудиозаписи не воспроизводятся.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ПСИХО-ТЕСТ -->
+<section class="section" id="test">
+  <div class="section-inner">
+    <h2 class="section-title">Психо-тест</h2>
+    <p class="section-subtitle">— Кто вы в этой истории? —</p>
+    <div class="test-container" id="testContainer">
+      <div class="test-progress">
+        <div class="test-progress-bar">
+          <div class="test-progress-fill" id="testProgressFill"></div>
+        </div>
+        <div class="test-progress-text" id="testProgressText">1 / 12</div>
+      </div>
+      <div id="testQuestions"></div>
+      <div class="test-result" id="testResult">
+        <div class="result-label">Ваш персонаж</div>
+        <div class="result-name" id="resultName">—</div>
+        <div class="result-desc" id="resultDesc">—</div>
+        <div class="result-quote" id="resultQuote">—</div>
+        <button class="game-btn" id="restartTest">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- МОДАЛЬНЫЕ ОКНА -->
+<div class="modal" id="modalDesign">
+  <div class="modal-content">
+    <button class="modal-close" data-close>×</button>
+    <h2>Анатомия замысла</h2>
+    <p>Сериал «Ганнибал» — это не просто детектив. Это исследование того, как красота может соседствовать с ужасом, а близость — с угрозой.</p>
+    <p class="quote">«Мы начинаем, обвиняя случай. Но случай — это лишь имя, которое мы даём закономерности, пока не узнали её настоящего имени.»</p>
+    <p>Создатели сериала опирались на романы Томаса Харриса, но выстроили собственную визуальную и философскую систему. Каждый кадр — это композиция, каждый диалог — дуэль, каждый ужин — ритуал.</p>
+    <p>В центре истории — три фигуры: Уилл Грэм, профилировщик с чрезмерно развитой эмпатией; Джек Кроуфорд, прагматик, использующий людей как инструмент; и Ганнибал Лектер, психиатр, который одновременно лечит и пожирает.</p>
+    <p>Их отношения — это медленно зреющее взаимное узнавание. Сериал спрашивает: что значит видеть другого насквозь? И можно ли, увидев, не стать его частью?</p>
+  </div>
+</div>
+
+<div class="modal" id="modalAesthetic">
+  <div class="modal-content">
+    <button class="modal-close" data-close>×</button>
+    <h2>Обитель эстетства</h2>
+    <p>Эстетика сериала строится на контрастах: барочная пышность и минимализм, аристократизм и первобытность, тишина и крик.</p>
+    <p class="quote">«Красота не успокаивает. Красота — это форма напряжения.»</p>
+    <p>Операторская работа, сценография и музыка работают как единый организм. Камера часто движется медленно, почти танцуя вокруг персонажей. Цветовая палитра — глубокие бордовые, чёрные, пыльно-розовые тона — создаёт ощущение одновременно роскоши и угрозы.</p>
+    <p>Особое место занимает кулинарная эстетика. Блюда, которые готовит Ганнибал, сняты как произведения искусства — с той же тщательностью, с какой сняты сцены насилия. Это сознательный приём: сериал заставляет зрителя задуматься, почему одно мы называем прекрасным, а другое — отвратительным.</p>
+    <p>Музыка Брайана Рейтцелла и классические произведения (Бах, Гольдберг-вариации) становятся ещё одним персонажем — тихим, настойчивым, обволакивающим.</p>
+  </div>
+</div>
+
+<div class="modal gallery-modal" id="modalGallery">
+  <div class="modal-content">
+    <button class="modal-close" data-close>×</button>
+    <div class="gallery-frame" id="galleryFrame"></div>
+    <div class="gallery-caption" id="galleryCaption">—</div>
+    <div class="gallery-nav">
+      <button id="galleryPrev" aria-label="Предыдущее изображение">←</button>
+      <button id="galleryNext" aria-label="Следующее изображение">→</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  Фан-портал. Создан поклонниками сериала. Все права на оригинальные произведения принадлежат их правообладателям.<br>
+  «This is my design.»
+</footer>
+
+<script>
+/* =========================================================
+   ДАННЫЕ
+   ========================================================= */
+
+// Персонажи
+const characters = [
+  {
+    initials:'HL',
+    name:'Ганнибал Лектер',
+    role:'Психиатр. Хищник.',
+    portrait:'Талантливый психиатр, безупречный эстет и скрытый серийный убийца. Видит в людях материал для искусства и пищи. Его отношения с Уиллом — центральная ось сериала: смесь восхищения, манипуляции и странной нежности.'
+  },
+  {
+    initials:'WG',
+    name:'Уилл Грэм',
+    role:'Профилировщик ФБР.',
+    portrait:'Специальный агент с редким даром — способностью полностью входить в сознание убийцы. Эта эмпатия делает его незаменимым инструментом, но медленно разрушает. Он видит то, чего другие не замечают, и платит за это сном, здоровьем и рассудком.'
+  },
+  {
+    initials:'JC',
+    name:'Джек Кроуфорд',
+    role:'Начальник отдела поведенческого анализа.',
+    portrait:'Прагматик и карьерист, для которого люди — прежде всего ресурс. Уважает Уилла, использует его, любит жену. В его жёсткости проступает трещина, когда болезнь близкого человека сталкивает его с тем, чем он кормит других.'
+  },
+  {
+    initials:'BS',
+    name:'Беверли',
+    role:'Судебный патологоанатом.',
+    portrait:'Талантливый специалист, одна из немногих, кто относится к Уиллу с теплом и доверием. Её гибель — один из переломных моментов сериала, точка, после которой Уилл уже не может делать вид, что ничего не видит.'
+  },
+  {
+    initials:'FD',
+    name:'Фредерика Чилтон',
+    role:'Директор психиатрической больницы.',
+    portrait:'Тщеславный администратор, одержимый идеей поймать Лектера и тем прославиться. Его амбиции оказываются опаснее, чем он сам предполагает: он играет с огнём, не понимая, кто перед ним.'
+  },
+  {
+    initials:'AH',
+    name:'Абигейл Хоббс',
+    role:'Дочь убийцы.',
+    portrait:'Подросток, чей отец оказался серийным убийцей. Уилл берёт её под опеку, и между ними возникает странная, хрупкая связь. Она — живое напоминание о том, что насилие передаётся, и о том, что близость может быть формой спасения или опасности.'
+  },
+  {
+    initials:'BD',
+    name:'Беделия Дю Мауриель',
+    role:'Психиатр Лектера.',
+    portrait:'Коллега и, в каком-то смысле, сообщница Ганнибала. Она единственная, кто видит его насквозь и выбирает не бежать, а танцевать на грани. Её роль — быть зеркалом, в котором он может себя рассмотреть.'
+  },
+  {
+    initials:'MV',
+    name:'Марджерет Верджер',
+    role:'Сестра Мейсона Верджера.',
+    portrait:'Женщина, выросшая в семье садиста и ставшая его отражением. Её встреча с Лектером — одна из самых мрачных сцен сериала; она воплощает ту же жестокость, но без его эстетики.'
+  }
+];
+
+// Сезоны и эпизоды
+const seasons = [
+  {
+    number:1,
+    title:'Сезон I',
+    year:'2013',
+    episodes:[
+      {n:1,title:'Apéritif',desc:'ФБР привлекает Уилла Грэма к поиску убийцы, прозванного Миннесотским Человеком-Львом. Уилл обращается за помощью к психиатру Ганнибалу Лектеру.'},
+      {n:2,title:'Amuse-Bouche',desc:'Новое дело: жертвы найдены со следами грибков. Уилл начинает работать ближе к Лектеру, не подозревая, кто перед ним.'},
+      {n:3,title:'Potage',desc:'Уилл узнаёт об Абигейл Хоббс, дочери предполагаемого убийцы. Лектер предлагает ей неожиданную защиту.'},
+      {n:4,title:'Coquilles',desc:'Серия похищений. Уилл замечает, что его сны становятся всё более тревожными, а границы между ним и убийцей — всё более зыбкими.'},
+      {n:5,title:'Consommé',desc:'Появляется новый подозреваемый — человек, одержимый идеей стать другим. Лектер наблюдает за Уиллом всё внимательнее.'},
+      {n:6,title:'Entrée',desc:'Джек начинает подозревать Лектера. Уилл разрывается между доверием к другу и растущим беспокойством.'},
+      {n:7,title:'Soufflé',desc:'Уилл госпитализирован. Лектер наносит ему визит, который меняет расстановку сил.'},
+      {n:8,title:'Fromage',desc:'Раскрывается история одного из ранних преступлений Лектера. Появляется фигура, связанная с его прошлым.'},
+      {n:9,title:'Trou Normand',desc:'Новое дело приводит Уилла в дом, где ужас скрыт за фасадом благополучия.'},
+      {n:10,title:'Buffet Froid',desc:'Лектер действует всё смелее. Уилл начинает видеть сны, в которых друг становится тем, кого он ищет.'},
+      {n:11,title:'Rôti',desc:'Джек делает решительный шаг. Лектер отвечает с холодной точностью.'},
+      {n:12,title:'Relevés',desc:'Уилл оказывается в больнице для преступников. Лектер наносит ему визит, который меняет всё.'},
+      {n:13,title:'Savoureux',desc:'Финал сезона. Маски сорваны, близкие люди оказываются в опасности. Ужин, который невозможно забыть.'}
+    ]
+  },
+  {
+    number:2,
+    title:'Сезон II',
+    year:'2014',
+    episodes:[
+      {n:1,title:'Kaiseki',desc:'Уилл под судом. Лектер наносит визит в тюрьму, где между ними происходит первый открытый разговор на грани.'},
+      {n:2,title:'Sakizuke',desc:'Уилл выходит под залог. Он начинает собственное расследование, пытаясь доказать то, что знает.'},
+      {n:3,title:'Hassun',desc:'Лектер и Уилл снова сближаются. Джек не оставляет попыток поймать хищника.'},
+      {n:4,title:'Takiawase',desc:'Появляется фигура из прошлого Лектера. Уилл получает новое доказательство — и новую рану.'},
+      {n:5,title:'Mukōzuke',desc:'Джек действует решительно. Лектер отвечает с изощрённой жестокостью.'},
+      {n:6,title:'Futamono',desc:'Уилл и Лектер встречаются за ужином. Разговор идёт о доверии, близости и том, что скрывается за словами.'},
+      {n:7,title:'Yakimono',desc:'Новое дело. Лектер помогает Уиллу — с той же безупречностью, с которой он его разрушает.'},
+      {n:8,title:'Suizakari',desc:'Прошлое Уилла возвращается. Он начинает понимать, как глубоко зашёл.'},
+      {n:9,title:'Shiizakana',desc:'Появляется Милород Верджер. Его одержимость Лектером обретает форму.'},
+      {n:10,title:'Naka-Choko',desc:'Уилл и Лектер действуют вместе против общего врага. Граница между союзом и соучастием стирается.'},
+      {n:11,title:'Ko No Mono',desc:'Беверли делает открытие, которое меняет всё. Лектер отвечает.'},
+      {n:12,title:'Tome-wan',desc:'Джек делает решающий ход. Ужин, после которого пути назад нет.'},
+      {n:13,title:'Mizumono',desc:'Финал сезона. Столкновение в доме Лектера. Кровь, стекло и тишина, которая звучит громче крика.'}
+    ]
+  },
+  {
+    number:3,
+    title:'Сезон III',
+    year:'2015',
+    episodes:[
+      {n:1,title:'Antipasto',desc:'Действие переносится в Европу. Лектер скрывается под чужим именем. Охотник и добыча меняются местами.'},
+      {n:2,title:'Primavera',desc:'Уилл возвращается в свой дом, но не может вернуться к себе. Он отправляется на поиски.'},
+      {n:3,title:'Secondo',desc:'Встреча в Италии. Ужин, в котором больше слов, чем в любом допросе.'},
+      {n:4,title:'Aperitivo',desc:'Лектер попадает в руки тех, кто считает себя сильнее его. Беделия делает выбор.'},
+      {n:5,title:'Contorno',desc:'Уилл и Джек действуют вместе. Их метод — тот, что когда-то разрушил Уилла.'},
+      {n:6,title:'Dolce',desc:'Побег. Лектер и Беделия оказываются в дороге, где каждый жест — расчёт.'},
+      {n:7,title:'Digestivo',desc:'Уилл возвращается в ФБР. Он больше не тот, кем был. Джек предлагает ему сделку.'},
+      {n:8,title:'The Great Red Dragon',desc:'Новая арка. Появляется Фрэнсис Долархайд — человек, одержимый превращением.'},
+      {n:9,title:'...And the Woman Clothed in Sun',desc:'Долархайд выбирает следующую жертву. Уилл понимает, что единственный способ поймать его — стать похожим.'},
+      {n:10,title:'...And the Beast from the Sea',desc:'Лектер возвращается. Его интерес к Долархайду — не случайность.'},
+      {n:11,title:'...And the Beast from the Water',desc:'Три фигуры в одном доме. Ужин, который становится последним для одних и первым — для других.'},
+      {n:12,title:'The Number of the Beast Is 666',desc:'Финальная охота. Долархайд делает выбор, который определяет всё.'},
+      {n:13,title:'The Wrath of the Lamb',desc:'Финал сериала. Последний ужин. То, что начиналось как расследование, заканчивается как признание.'}
+    ]
+  }
+];
+
+// Символика
+const symbols = [
+  {
+    icon:'🦌',
+    name:'Рогатый дух',
+    text:'Олень, который является Уиллу, — не призрак и не галлюцинация в обычном смысле. Это воплощение его дара: способности видеть то, что скрыто. Рогатый дух появляется в моменты, когда Уилл стоит на пороге понимания — о другом или о себе.'
+  },
+  {
+    icon:'⧖',
+    name:'Искажённое время',
+    text:'Часы в сериале часто идут неправильно, останавливаются или показывают невозможное время. Это знак того, что реальность Уилла нестабильна: он живёт между тем, что было, тем, что есть, и тем, что ему внушили.'
+  },
+  {
+    icon:'◉',
+    name:'Вендиго',
+    text:'Мифологический дух каннибализма из легенд алгонкинов. В сериале вендиго становится метафорой того, во что может превратиться человек, переступив определённую черту. Лектер — не вендиго в буквальном смысле, но он живёт по его логике: близость через поглощение.'
+  },
+  {
+    icon:'❦',
+    name:'Еда как близость',
+    text:'Каждый ужин у Лектера — ритуал. Он кормит тех, кого хочет к себе приблизить, и тех, кого выбрал исключить из мира живых. Еда в сериале — это язык: через неё говорят о доверии, контроле, любви и уничтожении.'
+  },
+  {
+    icon:'🦋',
+    name:'Метаморфоза',
+    text:'Бабочки и другие образы превращения сопровождают тех, кто меняется. Уилл, Долархайд, Абигейл — каждый проходит через свою стадию куколки. Вопрос сериала: во что ты вылупишься — и чьими руками эта куколка была сплетена?'
+  },
+  {
+    icon:'✦',
+    name:'Кровь как искусство',
+    text:'Сцены преступлений в сериале сняты как инсталляции. Лектер не просто убивает — он komponирует. Это сознательная эстетизация насилия, и сериал не уходит от вопроса: может ли ужас быть прекрасным, и что это говорит о смотрящем.'
+  }
+];
+
+// Рецепты
+const recipes = [
+  {
+    name:'Сердце с травами',
+    ingredients:['Говяжье сердце — 1 шт.','Розмарин — 2 веточки','Тимьян — 4 веточки','Чеснок — 3 зубчика','Оливковое масло — 4 ст. л.','Морская соль, чёрный перец'],
+    steps:['Сердце очистить от плёнок и сухожилий, разрезать пополам.','Натереть солью, перцем, измельчённым чесноком и травами.','Обжарить на сильном огне по 2–3 минуты с каждой стороны.','Дать отдохнуть 5 минут, нарезать тонкими ломтиками.','Подавать с салатом из горьких трав и бокалом тёмного вина.']
+  },
+  {
+    name:'Телятина по-флорентийски',
+    ingredients:['Телячья вырезка — 600 г','Сливочное масло — 50 г','Шалфей — 6 листьев','Белое вино — 100 мл','Морская соль, свежемолотый перец'],
+    steps:['Мясо посолить, оставить при комнатной температуре на 30 минут.','Раскалить сковороду, растопить масло с шалфеем.','Обжарить мясо по 3–4 минуты с каждой стороны до золотистой корочки.','Деглазировать вином, уменьшить огонь, готовить 5 минут.','Нарезать, полить соусом из сковороды, подать немедленно.']
+  },
+  {
+    name:'Сладкое печенье в форме сердца',
+    ingredients:['Мука — 250 г','Сливочное масло — 150 г','Сахарная пудра — 80 г','Яичный желток — 1 шт.','Ваниль — 1 ч. л.','Щепотка соли'],
+    steps:['Масло взбить с пудрой до пышности.','Добавить желток и ваниль, перемешать.','Всыпать муку с солью, замесить мягкое тесто.','Охладить 30 минут, раскатать, вырезать сердечки.','Выпекать при 170 °C 10–12 минут до лёгкого золотистого края.']
+  },
+  {
+    name:'Коктейль «Negroni»',
+    ingredients:['Джин — 30 мл','Кампари — 30 мл','Красный вермут — 30 мл','Апельсиновая цедра — 1 полоска','Лёд'],
+    steps:['В стакан наполнить льдом.','Влить джин, кампари и вермут в равных частях.','Аккуратно перемешать барной ложкой.','Украсить полоской апельсиновой цедры.','Подавать сразу, без промедления.']
+  },
+  {
+    name:'Крем-суп из лесных грибов',
+    ingredients:['Смесь лесных грибов — 400 г','Лук-шалот — 2 шт.','Чеснок — 2 зубчика','Сливки 33% — 200 мл','Куриный бульон — 500 мл','Тимьян, сливочное масло, соль, перец'],
+    steps:'Обжарить шалот и чеснок на сливочном масле до прозрачности.Добавить грибы, жарить до выпаривания жидкости.Влить бульон, варить 15 минут.Пюрировать блендером, влить сливки, прогреть, не кипятить.Подавать с каплей трюфельного масла и веточкой тимьяна.'
+  }
+];
+
+// Подозреваемые в игре
+const suspects = [
+  {id:1,name:'Молчун',desc:'Говорит мало, смотрит долго. Аликби не подтверждён.'},
+  {id:2,name:'Коллекционер',desc:'Одержим вещами. Каждая полка — как витрина.'},
+  {id:3,name:'Друг семьи',desc:'Знает всех. Приходит на ужины. Слишком вежлив.'},
+  {id:4,name:'Прохожий',desc:'Видели рядом с местом. Не помнит, зачем приходил.'}
+];
+
+// Улики на месте преступления (координаты в %)
+const evidences = [
+  {id:1,x:15,y:25,label:'I'},
+  {id:2,x:70,y:40,label:'II'},
+  {id:3,x:45,y:70,label:'III'},
+  {id:4,x:85,y:20,label:'IV'}
+];
+
+// Треки плейлиста
+const tracks = [
+  {title:'Love Crime',artist:'Siouxsie Sioux',type:'soundtrack',duration:218},
+  {title:'Main Titles',artist:'Brian Reitzell',type:'soundtrack',duration:78},
+  {title:'The Great Red Dragon',artist:'Brian Reitzell',type:'soundtrack',duration:245},
+  {title:'Aperitivo',artist:'Brian Reitzell',type:'soundtrack',duration:192},
+  {title:'Mizumono',artist:'Brian Reitzell',type:'soundtrack',duration:168},
+  {title:'Goldberg Variations, BWV 988 — Aria',artist:'J. S. Bach',type:'classic',duration:276},
+  {title:'Partita No. 3 — Gigue',artist:'J. S. Bach',type:'classic',duration:132},
+  {title:'Gymnopédie No. 1',artist:'Erik Satie',type:'classic',duration:198},
+  {title:'Spiegel im Spiegel',artist:'Arvo Pärt',type:'classic',duration:324},
+  {title:'De Profundis',artist:'Brian Reitzell',type:'soundtrack',duration:184}
+];
+
+// Вопросы теста
+const testQuestions = [
+  {
+    q:'Когда вы входите в комнату, вы прежде всего:',
+    options:[
+      {text:'Считываете настроения и лица',char:'will'},
+      {text:'Отмечаете детали интерьера',char:'hannibal'},
+      {text:'Оцениваете, кто здесь полезен',char:'jack'},
+      {text:'Ищете того, кто выглядит опаснее всех',char:'bedelia'}
+    ]
+  },
+  {
+    q:'Ваше отношение к чужой боли:',
+    options:[
+      {text:'Я чувствую её как свою',char:'will'},
+      {text:'Она — материал для понимания',char:'hannibal'},
+      {text:'Это то, с чем нужно работать',char:'jack'},
+      {text:'Я наблюдаю её со стороны',char:'bedelia'}
+    ]
+  },
+  {
+    q:'Идеальный вечер:',
+    options:[
+      {text:'В тишине, у окна, с книгой',char:'will'},
+      {text:'Изысканный ужин на двоих',char:'hannibal'},
+      {text:'Разговор о деле за бокалом',char:'jack'},
+      {text:'В компании того, кто меня не обманет',char:'abigail'}
+    ]
+  },
+  {
+    q:'Ваш главный страх:',
+    options:[
+      {text:'Стать тем, кого я преследую',char:'will'},
+      {text:'Быть непонятым',char:'hannibal'},
+      {text:'Потерять контроль',char:'jack'},
+      {text:'Остаться одной',char:'abigail'}
+    ]
+  },
+  {
+    q:'Когда вас предают, вы:',
+    options:[
+      {text:'Понимаете почему — и это больнее',char:'will'},
+      {text:'Запоминаю — и отвечаю',char:'hannibal'},
+      {text:'Действую, не теряя времени',char:'jack'},
+      {text:'Учусь больше никому не доверять',char:'abigail'}
+    ]
+  },
+  {
+    q:'Ваше отношение к правилам:',
+    options:[
+      {text:'Они помогают держаться',char:'will'},
+      {text:'Они для тех, у кого нет вкуса',char:'hannibal'},
+      {text:'Я их устанавливаю',char:'jack'},
+      {text:'Я живу вне их',char:'margot'}
+    ]
+  },
+  {
+    q:'Как вы выбираете друзей?',
+    options:[
+      {text:'Они выбирают меня — я не сопротивляюсь',char:'will'},
+      {text:'Я выбираю тех, кто достоин',char:'hannibal'},
+      {text:'По полезности и преданности',char:'jack'},
+      {text:'По тому, кто не бросит',char:'abigail'}
+    ]
+  },
+  {
+    q:'Ваше отношение к красоте:',
+    options:[
+      {text:'Она меня пугает и притягивает',char:'will'},
+      {text:'Это высшая форма порядка',char:'hannibal'},
+      {text:'Это инструмент',char:'jack'},
+      {text:'Я предпочитаю, чтобы меня оставили в покое',char:'bedelia'}
+    ]
+  },
+  {
+    q:'Когда вам нужно принять решение:',
+    options:[
+      {text:'Я слушаю то, что не сказано',char:'will'},
+      {text:'Я слушаю себя',char:'hannibal'},
+      {text:'Я слушаю факты',char:'jack'},
+      {text:'Я слушаю того, кто знает больше',char:'bedelia'}
+    ]
+  },
+  {
+    q:'Что для вас близость?',
+    options:[
+      {text:'Когда меня видят насквозь — и остаются',char:'will'},
+      {text:'Форма высшего признания',char:'hannibal'},
+      {text:'Союз, в котором есть смысл',char:'jack'},
+      {text:'То, чего я больше не могу себе позволить',char:'abigail'}
+    ]
+  },
+  {
+    q:'Ваше отношение к прошлому:',
+    options:[
+      {text:'Оно живёт во мне — и не даёт спать',char:'will'},
+      {text:'Я его переписываю',char:'hannibal'},
+      {text:'Я использую его',char:'jack'},
+      {text:'Я пытаюсь его пережить',char:'abigail'}
+    ]
+  },
+  {
+    q:'Если бы вы могли выбрать одну фразу, которой живёте:',
+    options:[
+      {text:'«Я вижу тебя»',char:'will'},
+      {text:'«This is my design»',char:'hannibal'},
+      {text:'«Дело прежде всего»',char:'jack'},
+      {text:'«Я больше не та, кем была»',char:'abigail'}
+    ]
+  }
+];
+
+// Результаты теста
+const testResults = {
+  will:{
+    name:'Уилл Грэм',
+    desc:'Вы — тот, кто видит. Ваша эмпатия — и дар, и рана. Вы входите в чужие миры, чтобы понять их, и не всегда возвращаетесь прежним. Вам нужна тишина, и тот, кто не будет требовать от вас больше, чем вы можете дать.',
+    quote:'«Я вижу его. Я вижу, как он это делает. И я не знаю, что со мной.»'
+  },
+  hannibal:{
+    name:'Ганнибал Лектер',
+    desc:'Вы — эстет с холодным взглядом. Для вас мир — это композиция, и вы не терпите диссонанса. Вы цените тех, кто способен видеть красоту там, где другие отводят глаза. Близость для вас — форма признания.',
+    quote:'«This is my design.»'
+  },
+  jack:{
+    name:'Джек Кроуфорд',
+    desc:'Вы — человек дела. Вы не тратите времени на сомнения и не позволяете себе роскоши быть мягким там, где нужна жёсткость. Вы любите тех, кого пускаете близко, — но показываете это поступками, а не словами.',
+    quote:'«Мы не можем позволить себе ждать.»'
+  },
+  bedelia:{
+    name:'Беделия Дю Мауриель',
+    desc:'Вы — наблюдатель, который видит больше, чем говорит. Вы знаете, как опасен мир, и выбираете держаться на расстоянии, которое позволяет выжить. Ваша сила — в трезвости, ваша цена — в одиночестве.',
+    quote:'«Предвидение не изменит того, что случится.»'
+  },
+  abigail:{
+    name:'Абигейл Хоббс',
+    desc:'Вы — тот, кто выжил там, где другие ломаются. Ваше прошлое — не груз, а шрам, который научил вас различать ложь. Вы ищете не спасения, а того, кто не предаст.',
+    quote:'«Я не та, кем вы меня считаете.»'
+  },
+  margot:{
+    name:'Марджерет Верджер',
+    desc:'Вы выросли в мире, где сила — единственная валюта. Вы научились отвечать ударом на удар и не ждёте милости. Ваша жёсткость — это броня, выкованная там, где другие сломались.',
+    quote:'«Я не прошу. Я беру.»'
+  }
+};
+
+/* =========================================================
+   НАВИГАЦИЯ МЕЖДУ СЕКЦИЯМИ
+   ========================================================= */
+const sections = document.querySelectorAll('.section');
+function showSection(id){
+  sections.forEach(s=>s.classList.remove('active'));
+  const target = document.getElementById(id);
+  if(target){
+    target.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  closeMenu();
+}
+
+// Меню
+const menuBtn = document.getElementById('menuBtn');
+const menuOverlay = document.getElementById('menuOverlay');
+function openMenu(){
+  menuOverlay.classList.add('open');
+  menuOverlay.setAttribute('aria-hidden','false');
+}
+function closeMenu(){
+  menuOverlay.classList.remove('open');
+  menuOverlay.setAttribute('aria-hidden','true');
+}
+menuBtn.addEventListener('click',()=>{
+  if(menuOverlay.classList.contains('open')) closeMenu();
+  else openMenu();
+});
+menuOverlay.addEventListener('click',(e)=>{
+  if(e.target===menuOverlay) closeMenu();
+});
+document.querySelectorAll('.menu-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const target = card.dataset.target;
+    showSection(target);
+  });
+});
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'){
+    closeMenu();
+    closeAllModals();
+  }
+});
+
+/* =========================================================
+   МОДАЛЬНЫЕ ОКНА
+   ========================================================= */
+function openModal(id){
+  const modal = document.getElementById(id);
+  if(modal){
+    modal.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+}
+function closeModal(modal){
+  modal.classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeAllModals(){
+  document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));
+  document.body.style.overflow='';
+}
+document.querySelectorAll('[data-modal]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const key = btn.dataset.modal;
+    if(key==='design') openModal('modalDesign');
+    else if(key==='aesthetic') openModal('modalAesthetic');
+  });
+});
+document.querySelectorAll('[data-close]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    closeModal(btn.closest('.modal'));
+  });
+});
+document.querySelectorAll('.modal').forEach(modal=>{
+  modal.addEventListener('click',(e)=>{
+    if(e.target===modal) closeModal(modal);
+  });
+});
+
+/* =========================================================
+   ГАЛЕРЕЯ
+   ========================================================= */
+const galleryItems = [
+  {cls:'g1',label:'Кабинет доктора Лектера',caption:'Кабинет — его храм. Тени, книги, тишина.'},
+  {cls:'g2',label:'Рогатый дух',caption:'Олень в тумане — проводник между мирами Уилла.'},
+  {cls:'g3',label:'Алые узоры',caption:'Сцены преступлений как инсталляции.'},
+  {cls:'g4',label:'Изысканная сервировка',caption:'Каждый ужин — ритуал.'},
+  {cls:'g5',label:'Миннесотские леса',caption:'Туман, в котором рождаются видения.'},
+  {cls:'g6',label:'Метаморфозы',caption:'Бабочки — знак перемены, неизбежной и опасной.'}
+];
+let currentGalleryIndex = 0;
+const galleryFrame = document.getElementById('galleryFrame');
+const galleryCaption = document.getElementById('galleryCaption');
+const galleryModal = document.getElementById('modalGallery');
+
+function renderGalleryItem(i){
+  const item = galleryItems[i];
+  galleryFrame.innerHTML = `<div class="frame ${item.cls}">${item.label}</div>`;
+  galleryCaption.textContent = item.caption;
+}
+document.querySelectorAll('.gallery-item').forEach(el=>{
+  el.addEventListener('click',()=>{
+    currentGalleryIndex = parseInt(el.dataset.index,10);
+    renderGalleryItem(currentGalleryIndex);
+    openModal('modalGallery');
+  });
+});
+document.getElementById('galleryPrev').addEventListener('click',()=>{
+  currentGalleryIndex = (currentGalleryIndex-1+galleryItems.length)%galleryItems.length;
+  renderGalleryItem(currentGalleryIndex);
+});
+document.getElementById('galleryNext').addEventListener('click',()=>{
+  currentGalleryIndex = (currentGalleryIndex+1)%galleryItems.length;
+  renderGalleryItem(currentGalleryIndex);
+});
+
+/* =========================================================
+   ПЕРСОНАЖИ — 3D-КАРТОЧКИ
+   ========================================================= */
+const charactersGrid = document.getElementById('charactersGrid');
+characters.forEach(c=>{
+  const card = document.createElement('div');
+  card.className = 'char-card';
+  card.innerHTML = `
+    <div class="char-face char-front">
+      <div class="char-portrait"><div class="initials">${c.initials}</div></div>
+      <div>
+        <div class="char-name">${c.name}</div>
+        <div class="char-role">${c.role}</div>
+      </div>
+      <div class="char-hint">наведите</div>
+    </div>
+    <div class="char-face char-back">
+      <h4>Психологический портрет</h4>
+      <p>${c.portrait}</p>
+    </div>
+  `;
+  // На мобильных — по тапу
+  card.addEventListener('click',()=>{
+    if(window.matchMedia('(hover:none)').matches){
+      card.classList.toggle('flipped');
+    }
+  });
+  // На десктопе — по наведению
+  card.addEventListener('mouseenter',()=>{
+    if(!window.matchMedia('(hover:none)').matches){
+      card.classList.add('flipped');
+    }
+  });
+  card.addEventListener('mouseleave',()=>{
+    if(!window.matchMedia('(hover:none)').matches){
+      card.classList.remove('flipped');
+    }
+  });
+  charactersGrid.appendChild(card);
+});
+
+/* =========================================================
+   СЮЖЕТ
+   ========================================================= */
+const seasonsContainer = document.getElementById('seasonsContainer');
+seasons.forEach(s=>{
+  const block = document.createElement('div');
+  block.className = 'season-block';
+  let eps = '';
+  s.episodes.forEach(e=>{
+    eps += `
+      <div class="episode-card">
+        <div class="ep-number">Серия ${String(e.n).padStart(2,'0')} / ${String(s.episodes.length).padStart(2,'0')}</div>
+        <div class="ep-title">${e.title}</div>
+        <div class="ep-desc">${e.desc}</div>
+        <div class="ep-visual"></div>
+      </div>
+    `;
+  });
+  block.innerHTML = `
+    <div class="divider">✦</div>
+    <div class="season-header">
+      <h3>${s.title}</h3>
+      <span class="year">${s.year}</span>
+    </div>
+    <div class="episodes-grid">${eps}</div>
+  `;
+  seasonsContainer.appendChild(block);
+});
+
+/* =========================================================
+   СИМВОЛИКА
+   ========================================================= */
+const symbolsGrid = document.getElementById('symbolsGrid');
+symbols.forEach(s=>{
+  const card = document.createElement('div');
+  card.className = 'symbol-card';
+  card.innerHTML = `
+    <div class="symbol-icon">${s.icon}</div>
+    <h3>${s.name}</h3>
+    <p>${s.text}</p>
+  `;
+  symbolsGrid.appendChild(card);
+});
+
+/* =========================================================
+   ВЫСОКАЯ КУХНЯ
+   ========================================================= */
+const recipesGrid = document.getElementById('recipesGrid');
+recipes.forEach(r=>{
+  const card = document.createElement('div');
+  card.className = 'recipe-card';
+  let ing = r.ingredients.map(i=>`<li>${i}</li>`).join('');
+  let stp = r.steps.map((s,i)=>`<li>${s}</li>`).join('');
+  card.innerHTML = `
+    <h3>${r.name}</h3>
+    <div class="recipe-section">
+      <h4>Ингредиенты</h4>
+      <ul>${ing}</ul>
+    </div>
+    <div class="recipe-section">
+      <h4>Приготовление</h4>
+      <ol>${stp}</ol>
+    </div>
+  `;
+  recipesGrid.appendChild(card);
+});
+document.getElementById('randomRecipe').addEventListener('click',()=>{
+  const idx = Math.floor(Math.random()*recipes.length);
+  const cards = document.querySelectorAll('.recipe-card');
+  cards.forEach(c=>c.style.transition='all .5s ease');
+  cards.forEach((c,i)=>{
+    if(i===idx){
+      c.style.borderColor = 'var(--rose)';
+      c.style.boxShadow = '0 0 30px rgba(201,160,168,.4)';
+      c.scrollIntoView({behavior:'smooth',block:'center'});
+    } else {
+      c.style.borderColor = '';
+      c.style.boxShadow = '';
+    }
+  });
+});
+
+/* =========================================================
+   ИГРА УИЛЛА ГРЭМА
+   ========================================================= */
+let gameState = {suspect:null,found:[],pendulum:null};
+
+// Шаг 1 — подозреваемые
+const suspectsEl = document.getElementById('suspects');
+suspects.forEach(s=>{
+  const el = document.createElement('div');
+  el.className = 'suspect';
+  el.innerHTML = `<div class="name">${s.name}</div><div class="desc">${s.desc}</div>`;
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('.suspect').forEach(x=>x.classList.remove('selected'));
+    el.classList.add('selected');
+    gameState.suspect = s.id;
+    document.getElementById('toStep2').disabled = false;
+  });
+  suspectsEl.appendChild(el);
+});
+
+// Переходы между шагами
+function setGameStep(n){
+  document.querySelectorAll('.game-step').forEach(el=>{
+    const step = parseInt(el.dataset.step,10);
+    el.classList.remove('active','done');
+    if(step<n) el.classList.add('done');
+    else if(step===n) el.classList.add('active');
+  });
+  document.querySelectorAll('.game-phase').forEach(el=>{
+    el.classList.toggle('active',parseInt(el.dataset.phase,10)===n);
+  });
+}
+document.getElementById('toStep2').addEventListener('click',()=>setGameStep(2));
+document.getElementById('toStep3').addEventListener('click',()=>setGameStep(3));
+
+// Шаг 2 — улики
+const crimeScene = document.getElementById('crimeScene');
+evidences.forEach(e=>{
+  const el = document.createElement('div');
+  el.className = 'evidence';
+  el.style.left = e.x+'%';
+  el.style.top = e.y+'%';
+  el.textContent = e.label;
+  el.addEventListener('click',()=>{
+    if(!gameState.found.includes(e.id)){
+      gameState.found.push(e.id);
+      el.classList.add('found');
+      document.getElementById('evidenceCount').textContent = `Найдено: ${gameState.found.length} / 4`;
+      if(gameState.found.length===4){
+        document.getElementById('toStep3').disabled = false;
+      }
+    }
+  });
+  crimeScene.appendChild(el);
+});
+
+// Шаг 3 — маятник
+document.querySelectorAll('.pendulum-choice').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    gameState.pendulum = btn.dataset.choice;
+    setGameStep(4);
+    renderGameResult();
+  });
+});
+
+function renderGameResult(){
+  const texts = {
+    left:{
+      title:'Одиночка',
+      text:'Вы выбрали: он действовал один. Ваш профиль — профиль Уилла Грэма в начале пути: вы верите, что чудовище можно понять, если смотреть достаточно долго. Но иногда за спиной одиночки стоит тот, кто держит нити.'
+    },
+    right:{
+      title:'Сообщник',
+      text:'Вы выбрали: у него был сообщник. Ваш профиль ближе к Джеку Кроуфорду: вы видите сеть там, где другие видят одного. Это делает вас сильнее — но и заставляет подозревать всех.'
+    }
+  };
+  const r = texts[gameState.pendulum] || texts.left;
+  document.getElementById('gameResultTitle').textContent = r.title;
+  document.getElementById('gameResultText').textContent = r.text;
+}
+
+document.getElementById('restartGame').addEventListener('click',()=>{
+  gameState = {suspect:null,found:[],pendulum:null};
+  document.querySelectorAll('.suspect').forEach(x=>x.classList.remove('selected'));
+  document.querySelectorAll('.evidence').forEach(x=>x.classList.remove('found'));
+  document.getElementById('evidenceCount').textContent = 'Найдено: 0 / 4';
+  document.getElementById('toStep2').disabled = true;
+  document.getElementById('toStep3').disabled = true;
+  setGameStep(1);
+});
+
+/* =========================================================
+   ПЛЕЙЛИСТ
+   ========================================================= */
+let currentTrack = 0;
+let isPlaying = false;
+let currentFilter = 'all';
+let progressInterval = null;
+let currentTime = 0;
+let volume = 0.7;
+
+const vinyl = document.getElementById('vinyl');
+const vinylPlayer = document.getElementById('vinylPlayer');
+const trackTitle = document.getElementById('trackTitle');
+const trackArtist = document.getElementById('trackArtist');
+const progressFill = document.getElementById('progressFill');
+const currentTimeEl = document.getElementById('currentTime');
+const totalTimeEl = document.getElementById('totalTime');
+const playBtn = document.getElementById('playBtn');
+
+function getFilteredTracks(){
+  if(currentFilter==='all') return tracks;
+  return tracks.filter(t=>t.type===currentFilter);
+}
+
+function formatTime(s){
+  const m = Math.floor(s/60);
+  const sec = Math.floor(s%60);
+  return `${m}:${sec<10?'0':''}${sec}`;
+}
+
+function renderTrack(){
+  const list = getFilteredTracks();
+  if(list.length===0){
+    trackTitle.textContent = '—';
+    trackArtist.textContent = 'нет треков в этой категории';
+    totalTimeEl.textContent = '0:00';
+    return;
+  }
+  if(currentTrack>=list.length) currentTrack = 0;
+  const t = list[currentTrack];
+  trackTitle.textContent = t.title;
+  trackArtist.textContent = t.artist;
+  totalTimeEl.textContent = formatTime(t.duration);
+  currentTime = 0;
+  progressFill.style.width = '0%';
+  currentTimeEl.textContent = '0:00';
+}
+
+function play(){
+  const list = getFilteredTracks();
+  if(list.length===0) return;
+  isPlaying = true;
+  vinyl.classList.add('playing');
+  vinylPlayer.classList.add('playing');
+  playBtn.textContent = '❚❚';
+  clearInterval(progressInterval);
+  progressInterval = setInterval(()=>{
+    const t = list[currentTrack];
+    currentTime += 1;
+    if(currentTime>=t.duration){
+      nextTrack();
+      return;
+    }
+    const pct = (currentTime/t.duration)*100;
+    progressFill.style.width = pct+'%';
+    currentTimeEl.textContent = formatTime(currentTime);
+  },1000);
+}
+
+function pause(){
+  isPlaying = false;
+  vinyl.classList.remove('playing');
+  vinylPlayer.classList.remove('playing');
+  playBtn.textContent = '▶';
+  clearInterval(progressInterval);
+}
+
+function togglePlay(){
+  if(isPlaying) pause();
+  else play();
+}
+
+function nextTrack(){
+  const list = getFilteredTracks();
+  if(list.length===0) return;
+  pause();
+  currentTrack = (currentTrack+1)%list.length;
+  renderTrack();
+  play();
+}
+
+function prevTrack(){
+  const list = getFilteredTracks();
+  if(list.length===0) return;
+  pause();
+  currentTrack = (currentTrack-1+list.length)%list.length;
+  renderTrack();
+  play();
+}
+
+playBtn.addEventListener('click',togglePlay);
+document.getElementById('nextBtn').addEventListener('click',nextTrack);
+document.getElementById('prevBtn').addEventListener('click',prevTrack);
+
+// Прогресс-бар — перемотка
+document.getElementById('progressBar').addEventListener('click',(e)=>{
+  const list = getFilteredTracks();
+  if(list.length===0) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX-rect.left)/rect.width;
+  const t = list[currentTrack];
+  currentTime = Math.floor(pct*t.duration);
+  progressFill.style.width = (pct*100)+'%';
+  currentTimeEl.textContent = formatTime(currentTime);
+});
+
+// Громкость
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeFill = document.getElementById('volumeFill');
+volumeFill.style.width = (volume*100)+'%';
+volumeSlider.addEventListener('click',(e)=>{
+  const rect = e.currentTarget.getBoundingClientRect();
+  volume = Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+  volumeFill.style.width = (volume*100)+'%';
+});
+
+// Фильтры
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    currentTrack = 0;
+    pause();
+    renderTrack();
+  });
+});
+
+renderTrack();
+
+/* =========================================================
+   ПСИХО-ТЕСТ
+   ========================================================= */
+let testIndex = 0;
+let testAnswers = {};
+
+const testQuestionsEl = document.getElementById('testQuestions');
+const testProgressFill = document.getElementById('testProgressFill');
+const testProgressText = document.getElementById('testProgressText');
+const testResult = document.getElementById('testResult');
+
+function renderTest(){
+  testQuestionsEl.innerHTML = '';
+  testQuestions.forEach((q,qi)=>{
+    const qEl = document.createElement('div');
+    qEl.className = 'test-question';
+    if(qi===0) qEl.classList.add('active');
+    let opts = '';
+    q.options.forEach((o,oi)=>{
+      opts += `<button class="test-option" data-q="${qi}" data-char="${o.char}">${o.text}</button>`;
+    });
+    qEl.innerHTML = `
+      <h3>${q.q}</h3>
+      <div class="test-options">${opts}</div>
+      <div class="test-nav">
+        <button class="game-btn" data-nav="prev" ${qi===0?'disabled style="visibility:hidden"':''}>← Назад</button>
+        <button class="game-btn" data-nav="next" disabled>Далее →</button>
+      </div>
+    `;
+    testQuestionsEl.appendChild(qEl);
+  });
+  updateTestProgress();
+  bindTestEvents();
+}
+
+function updateTestProgress(){
+  const pct = ((testIndex+1)/testQuestions.length)*100;
+  testProgressFill.style.width = pct+'%';
+  testProgressText.textContent = `${testIndex+1} / ${testQuestions.length}`;
+}
+
+function bindTestEvents(){
+  document.querySelectorAll('.test-option').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const qi = parseInt(btn.dataset.q,10);
+      const char = btn.dataset.char;
+      // Снимаем выделение с других в этом вопросе
+      document.querySelectorAll(`.test-option[data-q="${qi}"]`).forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      testAnswers[qi] = char;
+      // Активируем кнопку "Далее"
+      const qEl = btn.closest('.test-question');
+      const nextBtn = qEl.querySelector('[data-nav="next"]');
+      nextBtn.disabled = false;
+      if(qi===testQuestions.length-1){
+        nextBtn.textContent = 'Узнать результат';
+      }
+    });
+  });
+  document.querySelectorAll('[data-nav]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const dir = btn.dataset.nav;
+      const questions = document.querySelectorAll('.test-question');
+      questions[testIndex].classList.remove('active');
+      if(dir==='next'){
+        if(testIndex===testQuestions.length-1){
+          showTestResult();
+          return;
+        }
+        testIndex++;
+      } else {
+        if(testIndex>0) testIndex--;
+      }
+      questions[testIndex].classList.add('active');
+      updateTestProgress();
+    });
+  });
+}
+
+function showTestResult(){
+  // Подсчёт
+  const counts = {};
+  Object.values(testAnswers).forEach(c=>{
+    counts[c] = (counts[c]||0)+1;
+  });
+  let maxChar = 'will', maxCount = 0;
+  for(const c in counts){
+    if(counts[c]>maxCount){
+      maxCount = counts[c];
+      maxChar = c;
+    }
+  }
+  const result = testResults[maxChar] || testResults.will;
+  document.getElementById('resultName').textContent = result.name;
+  document.getElementById('resultDesc').textContent = result.desc;
+  document.getElementById('resultQuote').textContent = result.quote;
+  testQuestionsEl.style.display = 'none';
+  document.querySelector('.test-progress').style.display = 'none';
+  testResult.classList.add('active');
+}
+
+document.getElementById('restartTest').addEventListener('click',()=>{
+  testIndex = 0;
+  testAnswers = {};
+  testQuestionsEl.style.display = '';
+  document.querySelector('.test-progress').style.display = '';
+  testResult.classList.remove('active');
+  renderTest();
+});
+
+renderTest();
+
+/* =========================================================
+   ИНИЦИАЛИЗАЦИЯ
+   ========================================================= */
+// Показать hero по умолчанию
+showSection('hero');
+</script>
+</body>
+</html>
