@@ -515,7 +515,7 @@
     </div>
 </section>
 
-           <div class="mt-12 text-left border-t border-hannibal-burgundy/40 pt-10 relative z-10 bg-black/40 p-6 rounded-2xl backdrop-blur-sm border border-hannibal-burgundy/30">
+           <div id="hero-archive" class="mt-12 text-left border-t border-hannibal-burgundy/40 pt-10 relative z-10 bg-black/40 p-6 rounded-2xl backdrop-blur-sm border border-hannibal-burgundy/30">
     <div class="flex justify-between items-end mb-6 gap-4">
         <div>
             <h3 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose hover-text-glow inline-block cursor-default">Визуальный Архив</h3>
@@ -711,16 +711,6 @@
     renderPreview();
 })();
 </script>
-
-<!-- Кнопка закрытия галереи (добавь в HTML модалки) -->
-<button type="button" data-gal-act="close" class="absolute top-4 right-4 z-50 w-10 h-10 bg-hannibal-bg-dark/90 border border-hannibal-burgundy/60 rounded-full text-hannibal-rose hover:text-white hover:border-hannibal-crimson transition-all flex items-center justify-center text-xl cursor-pointer">
-    ✕
-</button>
-
-</section>
-</script>
-
-    </section>
 
     <!-- POPUPS ДЛЯ ГЛАВНОГО ЭКРАНА -->
     <div id="modal-anatomy" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop bg-black/85">
@@ -4801,7 +4791,7 @@ initQuiz();
     <!-- 3. ВЫСОКАЯ КУХНЯ ДОКТОРА ЛЕКТЕРА (GASTRONOMY) -->
 
 
-<!-- 3. ВЫСОКАЯ КУХНЯ ДОКТОРА ЛЕКТЕРА (ПОЛНЫЙ РАЗДЕЛ СО ВСЕМИ 17 РЕЦЕПТАМИ - БЕЗ ФОНОВОЙ КАРТИНКИ) -->
+<!-- 3. ВЫСОКАЯ КУХНЯ ДОКТОРА ЛЕКТЕРА (ПОЛНЫЙ РАЗДЕЛ СО ВСЕМИ 16 РЕЦЕПТАМИ - БЕЗ ФОНОВОЙ КАРТИНКИ) -->
 <section id="gastronomy" class="tab-section relative py-28 px-6 max-w-6xl mx-auto border-t border-hannibal-burgundy/40">
     
     <div class="relative z-10">
@@ -4832,7 +4822,7 @@ initQuiz();
                 <p class="text-lg md:text-xl font-cinzel text-hannibal-pastel-dust/90 tracking-wider mt-2">Полная кулинарная коллекция д-ра Ганнибала Лектера</p>
             </div>
 
-            <!-- Список всех 17 подробных блюд -->
+            <!-- Список всех 16 подробных блюд -->
             <div class="space-y-16" id="recipes-container">
                 
                 <!-- Блюдо 1 -->
@@ -5191,54 +5181,11 @@ initQuiz();
         </ol>
     </div>
 </div>
+
 <!-- Блюдо 9 -->
 <div id="recipe-9" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">9. Сезонные сашими «Мукозу́ке» с морским ежом, водяным моллюском и кальмаром</h4>
-        <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 2, Эпизод 5 («Mukozuke»)</span>
-    </div>
-    
-    <!-- Фото блюда -->
-    <div class="mb-6 overflow-hidden rounded-xl border border-hannibal-burgundy/60 max-w-2xl mx-auto shadow-2xl bg-hannibal-bg-dark">
-        <img src="китайсямана.jpg" alt="Сезонные сашими Мукозуке" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async">
-    </div>
-
-    <p class="text-hannibal-pastel-dust/90 text-lg md:text-xl mb-4 leading-relaxed">
-        Блюдо «Мукозуке» (向付) восходит к традиционной японской высокой кухне Кайсэки. В сериале доктор Лектер демонстрирует безупречное владение ножевой техникой и глубокое понимание сезонности, подавая сашими с подчеркнутой графичностью и холодной эстетикой.
-    </p>
-    <p class="text-hannibal-pastel-dust text-xl md:text-2xl italic mb-6 leading-relaxed">
-        <strong class="text-hannibal-rose font-cinzel not-italic text-lg block uppercase tracking-wider mb-1">Визуальная подача:</strong>
-        На темном, глубоком блюде из грубого базальта или черного сланца возвышается миниатюрная композиция из талого льда. На ней контрастно разложены ингредиенты: белоснежные, филигранно надрезанные «сеткой» полоски кальмара, утонченные розово-перламутровые ломтики водяного моллюска и ярко-оранжевые, кремовые язычки икры морского ежа. Блюдо украшено веточкой свежего сисо, лепестками съедобных цветов и миниатюрным кнелем свеженатертого васаби.
-    </p>
-
-    <div class="bg-hannibal-bg-dark/80 p-8 rounded-xl border border-hannibal-burgundy/60">
-        <h5 class="font-cinzel text-hannibal-rose text-2xl mb-4 font-bold">Ингредиенты:</h5>
-        <ul class="list-disc pl-6 space-y-2 text-lg md:text-xl text-hannibal-pastel-dust/95 mb-8">
-            <li>Икра морского ежа (Уни, свежая) — 40–50 г</li>
-            <li>Водяной моллюск (Миругаи / Спизула / Тихоокеанский моллюск) — 100 г</li>
-            <li>Тушка свежего кальмара (качества сашими / суши-грейд) — 1 шт.</li>
-            <li>Свежий корень васаби (или васаби-паста высокого качества) — 15 г</li>
-            <li>Натуральный соевый соус (премиальный или соус Пондзу) — 30 мл</li>
-            <li>Листья сисо (перилла) — 2–3 шт.</li>
-            <li>Лимон или цитрус юдзу — 1/2 шт.</li>
-            <li>Дробленый лед — для сервировки</li>
-        </ul>
-
-        <h5 class="font-cinzel text-hannibal-rose text-2xl mb-4 font-bold">Подробное пошаговое приготовление:</h5>
-        <ol class="list-decimal pl-6 space-y-4 text-lg md:text-xl text-hannibal-pastel-dust leading-relaxed">
-            <li><strong>Подготовка кальмара:</strong> Очистите тушку кальмара от пленок и внутренностей, тщательно промойте и обсушите салфеткой. Острым японским ножом сделайте на белом филе частые, тонкие параллельные и перекрестные надрезы (техника Ика-но-Мацукасэ), затем нарежьте его на изящные узкие полоски.</li>
-            <li><strong>Подготовка водяного моллюска:</strong> Очистите моллюска, обдав кипятком на пару секунд и сразу опустив в ледяную воду, чтобы снять жесткую кожицу. Нарежьте нежное хрустящее мясо под углом на тончайшие полупрозрачные слайсы.</li>
-            <li><strong>Икра морского ежа:</strong> Икра морского ежа подается в максимально естественном виде. Тщательно следите за её целостностью — перекладывайте язычки специальным пинцетом или бамбуковой палочкой.</li>
-            <li><strong>Сборка и подача:</strong> Выложите на камни или сланцевую тарелку подушку из дробленого льда. Поверх льда выстелите зеленый лист сисо. Изящно и лаконично разложите три вида морепродуктов обособленными группами: слайсы моллюска, свернутый полосками кальмар и аккуратную горку икры морского ежа.</li>
-            <li><strong>Сопровождение:</strong> Подавайте с небольшим количеством натертого свежего васаби, несколькими каплями сока юдзу и пиалой правильного соевого соуса.</li>
-        </ol>
-    </div>
-</div>
-
-<!-- Блюдо 10 -->
-<div id="recipe-10" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
-    <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">10. «Хэнгтаунские жареные раки» с копченой мальдонской солью (Версия «Хэнгтаун-Фрай»)</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">9. «Хэнгтаунские жареные раки» с копченой мальдонской солью (Версия «Хэнгтаун-Фрай»)</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 2, Эпизод 5 («Mukozuke»)</span>
     </div>
     
@@ -5279,10 +5226,10 @@ initQuiz();
         </ol>
     </div>
 </div>
-<!-- Блюдо 11 -->
-<div id="recipe-11" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 10 -->
+<div id="recipe-10" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">11. Английский пирог с почками, запеченный в тесте, с дуэтом свеклы и слоеным козьим сыром (шевр)</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">10. Английский пирог с почками, запеченный в тесте, с дуэтом свеклы и слоеным козьим сыром (шевр)</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 2, Эпизод 11 («Toi-Moi-Mon-Amour»)</span>
     </div>
     
@@ -5326,10 +5273,10 @@ initQuiz();
     </div>
 </div>
 
-<!-- Блюдо 12 -->
-<div id="recipe-13" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 11 -->
+<div id="recipe-11" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">12. Грандиозное средиземноморское плато с запеченным осьминогом, рыбой, оливками и черными перьями</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">11. Грандиозное средиземноморское плато с запеченным осьминогом, рыбой, оливками и черными перьями</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 3, Эпизод 1 («Antipasto») и Эпизод 3 («Secondo»)</span>
     </div>
     
@@ -5377,10 +5324,10 @@ initQuiz();
     </div>
 </div>
 
-<!-- Блюдо 13 -->
-<div id="recipe-13" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 12 -->
+<div id="recipe-12" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">13. Омлет «Сакромонте» с печенью и сладкими хлебцами</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">12. Омлет «Сакромонте» с печенью и сладкими хлебцами</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 2, Эпизод 10 («Naka-Choko»)</span>
     </div>
     
@@ -5422,11 +5369,11 @@ initQuiz();
         </ol>
     </div>
 </div>
-<!-- Блюдо 14 -->
-<!-- Блюдо 14 -->
-<div id="recipe-14" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 13 -->
+<!-- Блюдо 13 -->
+<div id="recipe-13" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">14. Изысканный «Ломо Сальтадо» с пряным картофелем фри, авторскими перьями и морковным салатом</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">13. Изысканный «Ломо Сальтадо» с пряным картофелем фри, авторскими перьями и морковным салатом</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 2, Эпизод 10 («Naka-Choko»)</span>
     </div>
     
@@ -5470,10 +5417,10 @@ initQuiz();
     </div>
 </div>
 
-<!-- Блюдо 15 -->
-<div id="recipe-15" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 14 -->
+<div id="recipe-14" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">15. Безопасная гурманская адаптация «Жареных ортоланов» (Ортолан по-французски)</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">14. Безопасная гурманская адаптация «Жареных ортоланов» (Ортолан по-французски)</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 2, Эпизод 9 («Ko Mono»)</span>
     </div>
     
@@ -5513,10 +5460,10 @@ initQuiz();
     </div>
 </div>
 
-<!-- Блюдо 16 -->
-<div id="recipe-16" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 15 -->
+<div id="recipe-15" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">16. Устрицы Рокфеллер</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">15. Устрицы Рокфеллер</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 3, Эпизод 7 («Digestivo»)</span>
     </div>
     
@@ -5566,10 +5513,10 @@ initQuiz();
     </div>
 </div>
 
-<!-- Блюдо 17 -->
-<div id="recipe-17" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
+<!-- Блюдо 16 -->
+<div id="recipe-16" class="border-b border-hannibal-burgundy/40 pb-12 transition-all duration-500 rounded-xl p-6 bg-hannibal-bg-dark/60">
     <div class="flex flex-col md:flex-row md:justify-between md:items-baseline mb-4">
-        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">17. Свежий вишнёвый пирог домашней выпечки от Ребы</h4>
+        <h4 class="text-3xl md:text-4xl font-cinzel text-hannibal-rose font-bold">16. Свежий вишнёвый пирог домашней выпечки от Ребы</h4>
         <span class="text-lg font-cinzel text-hannibal-crimson italic font-bold mt-2 md:mt-0">Сезон 3, Эпизод 9 («And the Woman Clothed With The Sun»)</span>
     </div>
     
@@ -5620,7 +5567,7 @@ initQuiz();
             <li><strong>Охлаждение:</strong> Важно: дайте пирогу полностью остыть (минимум 4 часа, лучше 6), иначе начинка будет вытекать при разрезании.</li>
         </ol>
     </div> <!-- /блок с ингредиентами и шагами -->
-</div> <!-- /recipe-17 -->
+</div> <!-- /recipe-16 -->
             </div> <!-- /recipes-container -->
         </div> <!-- /restaurant-menu-border -->
     </div> <!-- /relative z-10 -->
@@ -5650,39 +5597,6 @@ initQuiz();
 <script>
     let currentRecipeTargetId = null;
 
-    function switchTab(tabId) {
-        const sections = document.querySelectorAll('.tab-section');
-        sections.forEach(sec => {
-            sec.classList.add('hidden');
-            sec.classList.remove('section-animate');
-        });
-
-        const target = document.getElementById(tabId);
-        if (target) {
-            target.classList.remove('hidden');
-            void target.offsetWidth;
-            target.classList.add('section-animate');
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function openModal(id) {
-        const modal = document.getElementById(id);
-        if (modal) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-    }
-
-    function closeModal(id) {
-        const modal = document.getElementById(id);
-        if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-    }
-
     function flipCard(cardContainer) {
         const cardInner = cardContainer.querySelector('.card-inner');
         if (cardInner) {
@@ -5699,15 +5613,14 @@ initQuiz();
     { dish: "Вегетарианский салат с грушей и орехами", quote: "«Даже хищнику иногда полезно побыть травоядным.»", wine: "Винная пара: Совиньон Блан", targetId: "recipe-6", img: "хз 6.jpg" },
     { dish: "Южноиндийское карри «Кудал»", quote: "«Кокос, кориандр и чили. Надеюсь, вы любите острое, доктор Чилтон.»", wine: "Винная пара: полусухой Рислинг", targetId: "recipe-7", img: "кудал.jpg" },
     { dish: "Китайский суп с женьшенем и годжи", quote: "«Чтобы поддержать ваши силы и очистить разум.»", wine: "Винная пара: зелёный чай или Шаосин", targetId: "recipe-8", img: "суп.jpg" },
-    { dish: "Сашими «Мукозуке» (вариант 2)", quote: "«Нож — это продолжение мысли.»", wine: "Винная пара: сухое саке", targetId: "recipe-9", img: "китайсямана.jpg" },
-    { dish: "«Хэнгтаунские жареные раки»", quote: "«Золотая лихорадка, но с лучшими манерами.»", wine: "Винная пара: брют Креман", targetId: "recipe-10", img: "аааа.jpg" },
-    { dish: "Пирог с почками, свёклой и шевром", quote: "«Британская классика заслуживает достойного обращения.»", wine: "Винная пара: Сира (Syrah)", targetId: "recipe-11", img: "УИлл.jpg" },
-    { dish: "Средиземноморское плато с осьминогом", quote: "«Барокко на тарелке. Флоренция научила меня размаху.»", wine: "Винная пара: Верментино", targetId: "recipe-12", img: "кальмар.jpg" },
-    { dish: "Омлет «Сакромонте»", quote: "«Субпродукты — честная кухня для тех, кто не боится глубины.»", wine: "Винная пара: сухой Херес Fino", targetId: "recipe-13", img: "омлет.jpg" },
-    { dish: "«Ломо Сальтадо» с пряным картофелем", quote: "«Перу и Китай за одним столом — отличный повод для ужина.»", wine: "Винная пара: Мальбек", targetId: "recipe-14", img: "уффф.jpg" },
-    { dish: "Перепелки в арманьяке (адаптация «Ортоланов»)", quote: "«Накройте голову салфеткой. Пусть аромат останется между вами и Богом.»", wine: "Винная пара: выдержанный Арманьяк", targetId: "recipe-15", img: "нянян.jpg" },
-    { dish: "Устрицы Рокфеллер", quote: "«Богатство вкуса, достойное своего названия.»", wine: "Винная пара: Шампанское Blanc de Blancs", targetId: "recipe-16", img: "блюдо 16.jfif" },
-    { dish: "Вишнёвый пирог от Ребы", quote: "«Иногда простота — самое честное блюдо.»", wine: "Винная пара: Москато д’Асти или чёрный чай", targetId: "recipe-17", img: "блюдо 17.jfif" }
+    { dish: "«Хэнгтаунские жареные раки»", quote: "«Золотая лихорадка, но с лучшими манерами.»", wine: "Винная пара: брют Креман", targetId: "recipe-9", img: "аааа.jpg" },
+    { dish: "Пирог с почками, свёклой и шевром", quote: "«Британская классика заслуживает достойного обращения.»", wine: "Винная пара: Сира (Syrah)", targetId: "recipe-10", img: "УИлл.jpg" },
+    { dish: "Средиземноморское плато с осьминогом", quote: "«Барокко на тарелке. Флоренция научила меня размаху.»", wine: "Винная пара: Верментино", targetId: "recipe-11", img: "кальмар.jpg" },
+    { dish: "Омлет «Сакромонте»", quote: "«Субпродукты — честная кухня для тех, кто не боится глубины.»", wine: "Винная пара: сухой Херес Fino", targetId: "recipe-12", img: "омлет.jpg" },
+    { dish: "«Ломо Сальтадо» с пряным картофелем", quote: "«Перу и Китай за одним столом — отличный повод для ужина.»", wine: "Винная пара: Мальбек", targetId: "recipe-13", img: "уффф.jpg" },
+    { dish: "Перепелки в арманьяке (адаптация «Ортоланов»)", quote: "«Накройте голову салфеткой. Пусть аромат останется между вами и Богом.»", wine: "Винная пара: выдержанный Арманьяк", targetId: "recipe-14", img: "нянян.jpg" },
+    { dish: "Устрицы Рокфеллер", quote: "«Богатство вкуса, достойное своего названия.»", wine: "Винная пара: Шампанское Blanc de Blancs", targetId: "recipe-15", img: "блюдо 16.jfif" },
+    { dish: "Вишнёвый пирог от Ребы", quote: "«Иногда простота — самое честное блюдо.»", wine: "Винная пара: Москато д’Асти или чёрный чай", targetId: "recipe-16", img: "блюдо 17.jfif" }
 ];
     
 
@@ -5898,6 +5811,9 @@ function switchTab(tabId) {
         void target.offsetWidth;
         target.classList.add('section-animate');
     }
+    // Блок «Визуальный архив» показываем только на главной странице
+    const heroArchive = document.getElementById('hero-archive');
+    if (heroArchive) heroArchive.classList.toggle('hidden', tabId !== 'hero');
     updateActiveNav(tabId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -6080,7 +5996,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
-</script>
 </script>
 </body>
 
