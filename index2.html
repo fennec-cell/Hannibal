@@ -1192,13 +1192,36 @@ button{font-family:var(--font-display);cursor:pointer;border:none;background:non
   .pendulum-pivot{animation:none;transform:rotate(0)}
 }
 </style>
+<style>
+/* ПОИСК */
+.search-overlay{position:fixed;inset:0;z-index:300;background:rgba(8,4,5,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:flex-start;justify-content:center;padding:6rem 1rem 2rem}
+.search-overlay.hidden{display:none}
+.search-box{width:100%;max-width:700px;background:linear-gradient(160deg,rgba(29,10,16,.98),rgba(20,7,10,.98));border:1px solid rgba(201,160,168,.25);box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.search-head{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;border-bottom:1px solid rgba(201,160,168,.15)}
+#search-input{flex:1;background:transparent;border:none;outline:none;color:var(--rose-dust);font-family:var(--font-body);font-size:1.2rem}
+#search-input::placeholder{color:rgba(201,160,168,.45)}
+.search-close{width:36px;height:36px;border:1px solid rgba(201,160,168,.3);color:var(--rose);font-size:1.3rem}
+.search-close:hover{background:var(--blood);color:var(--bone)}
+#search-results{max-height:60vh;overflow-y:auto}
+.search-empty{padding:1.5rem;text-align:center;color:rgba(201,160,168,.6);font-style:italic}
+.search-item{display:block;width:100%;text-align:left;padding:.8rem 1.2rem;border-bottom:1px solid rgba(201,160,168,.1);transition:background var(--t-fast) ease}
+.search-item:hover,.search-item.active{background:rgba(122,31,43,.3)}
+.search-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.25rem}
+.search-tag{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);border:1px solid rgba(201,160,168,.3);padding:.1rem .4rem}
+.search-title{font-family:var(--font-display);font-size:.9rem;color:var(--rose-dust)}
+.search-snippet{font-size:.9rem;color:rgba(234,217,210,.6);line-height:1.4}
+#search-results mark{background:var(--blood);color:var(--bone);padding:0 2px}
+</style>
 </head>
 <body>
 
 <!-- ШАПКА -->
 <header class="site-header">
   <div class="logo">HANNIBAL</div>
+  <div style="display:flex;gap:.6rem">
+  <button class="btn-menu" onclick="openSearch()" aria-label="Поиск по сайту">Поиск</button>
   <button class="btn-menu" id="menuBtn" aria-label="Открыть меню разделов">Разделы</button>
+</div>
 </header>
 
 <!-- МЕНЮ-КАРТОЧКИ -->
@@ -2427,5 +2450,16 @@ renderTest();
 // Показать hero по умолчанию
 showSection('hero');
 </script>
+<div class="search-overlay hidden" id="search-overlay">
+  <div class="search-box">
+    <div class="search-head">
+      <input id="search-input" type="text" autocomplete="off" placeholder="Поиск по порталу…">
+      <button class="search-close" id="search-close" type="button" aria-label="Закрыть поиск">×</button>
+    </div>
+    <div id="search-results"></div>
+  </div>
+</div>
+
+<script src="search.js"></script>
 </body>
 </html>
