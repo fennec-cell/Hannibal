@@ -6067,6 +6067,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 </script>
+    
+<div id="search-overlay" class="hidden flex fixed inset-0 z-[100] modal-backdrop bg-black/85 items-start justify-center pt-24 px-4">
+    <div class="w-full max-w-2xl bg-hannibal-bg-mid border-2 border-hannibal-burgundy/80 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="flex items-center gap-3 px-5 py-4 border-b border-hannibal-burgundy/40">
+            <span class="text-hannibal-rose text-xl">🔍</span>
+            <input id="search-input" type="text" autocomplete="off" placeholder="Поиск по порталу…"
+                   class="flex-1 bg-transparent outline-none text-hannibal-pastel-dust font-garamond text-xl">
+            <button id="search-close" type="button" class="text-hannibal-rose hover:text-white text-3xl leading-none transition-colors cursor-pointer" aria-label="Закрыть поиск">✕</button>
+        </div>
+        <div id="search-results" class="max-h-[60vh] overflow-y-auto"></div>
+    </div>
+</div>
+
+<style>
+    .search-item:hover, .search-item.active { background: rgba(122, 28, 40, 0.3); }
+    #search-results mark { background: #a82435; color: #fff; padding: 0 2px; border-radius: 2px; }
+</style>
+
+<script src="search-main.js"></script>
 </body>
 
 </html>
