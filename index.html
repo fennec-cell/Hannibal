@@ -6068,24 +6068,314 @@ window.addEventListener('DOMContentLoaded', () => {
 
 </script>
     
-<div id="search-overlay" class="hidden flex fixed inset-0 z-[100] modal-backdrop bg-black/85 items-start justify-center pt-24 px-4">
-    <div class="w-full max-w-2xl bg-hannibal-bg-mid border-2 border-hannibal-burgundy/80 rounded-2xl shadow-2xl overflow-hidden">
-        <div class="flex items-center gap-3 px-5 py-4 border-b border-hannibal-burgundy/40">
-            <span class="text-hannibal-rose text-xl">🔍</span>
-            <input id="search-input" type="text" autocomplete="off" placeholder="Поиск по порталу…"
-                   class="flex-1 bg-transparent outline-none text-hannibal-pastel-dust font-garamond text-xl">
-            <button id="search-close" type="button" class="text-hannibal-rose hover:text-white text-3xl leading-none transition-colors cursor-pointer" aria-label="Закрыть поиск">✕</button>
-        </div>
-        <div id="search-results" class="max-h-[60vh] overflow-y-auto"></div>
-    </div>
-</div>
+<script>
+(function () {
+    'use strict';
+    if (window.__hsLoaded) return;
+    window.__hsLoaded = true;
 
-<style>
-    .search-item:hover, .search-item.active { background: rgba(122, 28, 40, 0.3); }
-    #search-results mark { background: #a82435; color: #fff; padding: 0 2px; border-radius: 2px; }
-</style>
+    var SECTIONS = [
+        ['hero', 'Главная'], ['characters', 'Персонажи'], ['plot', 'Сюжет'], ['lore', 'Символика'],
+        ['gastronomy', 'Кухня'], ['game', 'Игра Уилла'], ['music', 'Плейлист'], ['quiz', 'Психо-Тест']
+    ];
+    var DOSSIERS = ['hannibal-modal', 'will-modal', 'alana-modal', 'jack-modal', 'bedelia-modal', 'freddie-modal',
+        'abigail-modal', 'chilton-modal', 'beverly-modal', 'jimmy-modal', 'brian-modal', 'mason-modal', 'margo-modal'];
 
-<script src="search-main.js"></script>
+    var items = null, results = [], active = -1, ui = null, curStems = [];
+
+    function byId(id) { return document.getElementById(id); }
+    function norm(s) { return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim(); }
+    function clean(s) { return String(s || '').replace(/\[cite:[^\]]*\]/g, '').replace(/\s+/g, ' ').trim(); }
+    function esc(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+    function stem(w) { return w.length > 5 ? w.slice(0, -2) : (w.length > 3 ? w.slice(0, -1) : w); }
+
+    function hl(raw, sts) {
+        if (!sts.length) return esc(raw);
+        var re = new RegExp(sts.map(function (s) {
+            return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/е/g, '[её]');
+        }).join('|'), 'gi');
+        var out = '', last = 0, m;
+        while ((m = re.exec(raw)) !== null) {
+            if (m[0].length === 0) { re.lastIndex++; continue; }
+            out += esc(raw.slice(last, m.index)) + '<mark>' + esc(m[0]) + '</mark>';
+            last = m.index + m[0].length;
+        }
+        return out + esc(raw.slice(last));
+    }
+
+    /* ---------- Индекс ---------- */
+    function add(o) {
+        o.title = clean(o.title).slice(0, 110);
+        if (!o.title) return;
+        o.text = clean(o.text).slice(0, o.max || 800);
+        o.titleN = norm(o.title);
+        o.textN = norm(o.text);
+        o.base = o.base || 0;
+        items.push(o);
+    }
+
+    function buildIndex() {
+        items = [];
+        var secBy = {};
+        SECTIONS.forEach(function (s) { secBy[s[0]] = { id: s[0], name: s[1] }; });
+
+        SECTIONS.forEach(function (s) {
+            var root = byId(s[0]), sec = secBy[s[0]];
+            if (!root) return;
+            add({ type: 'section', sec: sec, title: s[1], text: 'раздел портала', el: root, base: 2 });
+            root.querySelectorAll('h1, h2, h3, h4').forEach(function (h) {
+                if (h.closest('.perspective-1000, [id^="ep-s"], [id^="recipe-"]')) return;
+                var block = h.closest('[class*="rounded"]');
+                if (!block || block === root || !root.contains(block)) block = h.parentElement;
+                add({ type: 'heading', sec: sec, title: h.textContent, text: block ? block.textContent : '', el: h });
+            });
+        });
+
+        document.querySelectorAll('#plot .season-acc-btn').forEach(function (b) {
+            add({ type: 'season', sec: secBy.plot, title: b.textContent, text: b.textContent, el: b, base: 1 });
+        });
+        document.querySelectorAll('#plot [id^="ep-s"]').forEach(function (ep) {
+            var h = ep.querySelector('h4');
+            add({ type: 'episode', sec: secBy.plot, title: h ? h.textContent : ep.id, text: ep.textContent, el: ep, max: 1500 });
+        });
+        document.querySelectorAll('#characters .perspective-1000').forEach(function (card) {
+            var h = card.querySelector('h4');
+            add({ type: 'character', sec: secBy.characters, title: h ? h.textContent : '', text: card.textContent, el: card, base: 1 });
+        });
+        DOSSIERS.forEach(function (id) {
+            var m = byId(id), h = m && m.querySelector('h3');
+            if (!m || !h) return;
+            add({ type: 'dossier', sec: secBy.characters, title: 'Досье: ' + h.textContent, text: m.textContent, el: m, modalId: id, max: 6000 });
+        });
+        document.querySelectorAll('#gastronomy [id^="recipe-"]').forEach(function (r) {
+            var h = r.querySelector('h4');
+            add({ type: 'recipe', sec: secBy.gastronomy, title: h ? h.textContent : r.id, text: r.textContent, el: r, max: 1500 });
+        });
+        try {
+            if (typeof playlist !== 'undefined' && Array.isArray(playlist)) {
+                playlist.forEach(function (t, i) {
+                    add({ type: 'track', sec: secBy.music, title: t.title, text: t.artist + ' ' + (t.category === 'classical' ? 'классика' : 'саундтрек'),
+                          el: byId('track-list') || byId('music'), trackIdx: i });
+                });
+            }
+        } catch (e) { /* плейлист не найден — пропускаем */ }
+    }
+
+    /* ---------- Поиск ---------- */
+    function search(q) {
+        var qn = norm(q);
+        if (qn.length < 2 || !items) return [];
+        var words = qn.split(' ').filter(function (w) { return w.length > 1; });
+        if (!words.length) return [];
+        curStems = words.map(stem);
+
+        var out = [];
+        items.forEach(function (it) {
+            var score = it.base, ok = true;
+            for (var i = 0; i < curStems.length; i++) {
+                var w = curStems[i], pT = it.titleN.indexOf(w), pX = it.textN.indexOf(w);
+                if (pT === 0) score += 8;
+                else if (pT > 0) score += (it.titleN.charAt(pT - 1) === ' ') ? 6 : 3;
+                else if (pX >= 0) score += 1;
+                else { ok = false; break; }
+            }
+            if (!ok) return;
+            if (it.titleN.indexOf(qn) >= 0) score += 4;
+            out.push({ it: it, score: score });
+        });
+        out.sort(function (a, b) { return b.score - a.score; });
+        return out.slice(0, 15).map(function (x) { return x.it; });
+    }
+
+    function snippet(it) {
+        var pos = -1;
+        curStems.forEach(function (w) {
+            var p = it.textN.indexOf(w);
+            if (p >= 0 && (pos < 0 || p < pos)) pos = p;
+        });
+        if (pos < 0) return it.text.slice(0, 160) + (it.text.length > 160 ? '…' : '');
+        var start = Math.max(0, pos - 50);
+        return (start > 0 ? '…' : '') + it.text.slice(start, start + 170) + '…';
+    }
+
+    function label(it) {
+        return { season: 'Сюжет · сезон', episode: 'Сюжет · серия', character: 'Персонажи', dossier: 'Досье',
+                 recipe: 'Кухня · рецепт', track: 'Плейлист · трек' }[it.type] || it.sec.name;
+    }
+
+    /* ---------- Интерфейс ---------- */
+    function injectStyle() {
+        if (byId('hs-style')) return;
+        var st = document.createElement('style');
+        st.id = 'hs-style';
+        st.textContent = [
+            ".hs-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(8,4,6,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);align-items:flex-start;justify-content:center;padding:84px 14px 20px}",
+            ".hs-overlay.hs-open{display:flex}",
+            ".hs-box{width:100%;max-width:680px;max-height:calc(100vh - 110px);display:flex;flex-direction:column;background:#1a1019;border:2px solid rgba(122,28,40,.85);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.7);overflow:hidden;color:#f5e3e6}",
+            ".hs-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(122,28,40,.5)}",
+            ".hs-input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#f5e3e6;font:400 20px 'Cormorant Garamond',serif}",
+            ".hs-input::placeholder{color:rgba(245,227,230,.4)}",
+            ".hs-close{width:34px;height:34px;border:1px solid rgba(214,139,151,.4);border-radius:8px;background:transparent;color:#d68b97;font-size:20px;line-height:1;cursor:pointer}",
+            ".hs-close:hover{background:#7a1c28;color:#fff}",
+            ".hs-list{overflow-y:auto;flex:1}",
+            ".hs-empty{padding:26px 18px;text-align:center;font:italic 18px 'Cormorant Garamond',serif;color:rgba(245,227,230,.55)}",
+            ".hs-item{display:block;width:100%;text-align:left;padding:12px 18px;background:transparent;border:0;border-bottom:1px solid rgba(122,28,40,.25);color:inherit;cursor:pointer}",
+            ".hs-item:hover,.hs-item.hs-active{background:rgba(122,28,40,.32)}",
+            ".hs-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}",
+            ".hs-tag{font:700 10px 'Cinzel Decorative',serif;letter-spacing:.15em;text-transform:uppercase;color:#d68b97;border:1px solid rgba(122,28,40,.9);border-radius:4px;padding:2px 6px;white-space:nowrap}",
+            ".hs-title{font:700 14px 'Cinzel Decorative',serif;color:#d68b97}",
+            ".hs-snip{font:400 16px/1.35 'Cormorant Garamond',serif;color:rgba(245,227,230,.65)}",
+            ".hs-foot{padding:8px 18px;border-top:1px solid rgba(122,28,40,.4);font:12px sans-serif;color:rgba(245,227,230,.45);text-align:center}",
+            ".hs-overlay mark{background:#a82435;color:#fff;border-radius:2px;padding:0 2px}",
+            ".hs-flash{outline:2px solid #d68b97!important;outline-offset:5px;box-shadow:0 0 34px rgba(214,139,151,.55)!important}"
+        ].join('\n');
+        document.head.appendChild(st);
+    }
+
+    function ensureUI() {
+        if (ui) return;
+        injectStyle();
+        var ov = document.createElement('div');
+        ov.className = 'hs-overlay';
+        ov.id = 'hs-overlay';
+        ov.innerHTML =
+            '<div class="hs-box" role="dialog" aria-modal="true" aria-label="Поиск по сайту">' +
+            '<div class="hs-head"><span style="font-size:20px">🔍</span>' +
+            '<input class="hs-input" type="text" autocomplete="off" placeholder="Поиск по порталу…">' +
+            '<button class="hs-close" type="button" aria-label="Закрыть">✕</button></div>' +
+            '<div class="hs-list"></div>' +
+            '<div class="hs-foot">↑ ↓ выбор &nbsp;·&nbsp; Enter — перейти &nbsp;·&nbsp; Esc — закрыть</div></div>';
+        document.body.appendChild(ov);
+        ui = { ov: ov, input: ov.querySelector('.hs-input'), list: ov.querySelector('.hs-list') };
+
+        var timer = null;
+        ui.input.addEventListener('input', function () {
+            clearTimeout(timer);
+            timer = setTimeout(function () { results = search(ui.input.value); render(); }, 120);
+        });
+        ui.input.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowDown') { e.preventDefault(); if (results.length) setActive(Math.min(active + 1, results.length - 1)); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); if (results.length) setActive(Math.max(active - 1, 0)); }
+            else if (e.key === 'Enter') { e.preventDefault(); if (results.length) go(Math.max(active, 0)); }
+        });
+        ui.list.addEventListener('click', function (e) {
+            var b = e.target.closest('.hs-item');
+            if (b) go(parseInt(b.getAttribute('data-i'), 10));
+        });
+        ov.addEventListener('click', function (e) { if (e.target === ov) closeSearch(); });
+        ov.querySelector('.hs-close').addEventListener('click', closeSearch);
+    }
+
+    function render() {
+        if (!results.length) {
+            var short = norm(ui.input.value).length < 2;
+            ui.list.innerHTML = '<div class="hs-empty">' + (short
+                ? 'Введите хотя бы 2 буквы, например: «Уилл», «Вендиго», «Оссо буко», «олень»'
+                : 'Ничего не найдено. Попробуйте другой запрос.') + '</div>';
+            active = -1;
+            return;
+        }
+        ui.list.innerHTML = results.map(function (it, i) {
+            var sn = snippet(it);
+            return '<button type="button" class="hs-item" data-i="' + i + '">' +
+                '<div class="hs-row"><span class="hs-tag">' + esc(label(it)) + '</span>' +
+                '<span class="hs-title">' + hl(it.title, curStems) + '</span></div>' +
+                (sn ? '<div class="hs-snip">' + hl(sn, curStems) + '</div>' : '') + '</button>';
+        }).join('');
+        setActive(0);
+    }
+
+    function setActive(i) {
+        active = i;
+        var els = ui.list.querySelectorAll('.hs-item');
+        for (var k = 0; k < els.length; k++) els[k].classList.toggle('hs-active', k === i);
+        if (els[i]) els[i].scrollIntoView({ block: 'nearest' });
+    }
+
+    /* ---------- Переход к результату ---------- */
+    function openAccordions(el) {
+        var opened = false;
+        if (!el || !el.closest) return opened;
+        var sb = el.closest('.season-acc-body');
+        if (sb && !sb.classList.contains('open') && typeof toggleSeason === 'function') {
+            toggleSeason(sb.id.replace('season-', '')); opened = true;
+        }
+        if (el.classList.contains('season-acc-btn')) {
+            var body = byId('season-' + el.id.replace('season-btn-', ''));
+            if (body && !body.classList.contains('open') && typeof toggleSeason === 'function') {
+                toggleSeason(el.id.replace('season-btn-', '')); opened = true;
+            }
+        }
+        var ep = el.closest('.ep-acc');
+        if (ep && !ep.classList.contains('open') && typeof toggleEpisode === 'function') {
+            toggleEpisode(ep.id); opened = true;
+        }
+        return opened;
+    }
+
+    function scrollFlash(el) {
+        if (!el || !el.scrollIntoView) return;
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('hs-flash');
+        setTimeout(function () { el.classList.remove('hs-flash'); }, 2200);
+    }
+
+    function go(i) {
+        var it = results[i];
+        if (!it) return;
+        closeSearch();
+
+        var menu = byId('nav-menu');
+        if (menu && !menu.classList.contains('hidden') && typeof toggleNavMenu === 'function') toggleNavMenu();
+        if (typeof closeModal === 'function') {
+            DOSSIERS.concat(['modal-anatomy', 'modal-aesthetic', 'dinner-modal']).forEach(function (id) { if (byId(id)) closeModal(id); });
+        }
+        if (typeof switchTab === 'function') switchTab(it.sec.id);
+
+        if (it.type === 'dossier') {
+            setTimeout(function () { if (typeof openModal === 'function') openModal(it.modalId); }, 350);
+            return;
+        }
+        if (it.type === 'section') return;
+        if (it.type === 'track' && typeof loadTrack === 'function') { try { loadTrack(it.trackIdx); } catch (e) {} }
+
+        var delay = openAccordions(it.el) ? 750 : 400;
+        setTimeout(function () { scrollFlash(it.el); }, delay);
+    }
+
+    /* ---------- Открытие / закрытие ---------- */
+    function openSearch() {
+        try { if (!items) buildIndex(); } catch (e) { console.error('Поиск: ошибка индекса', e); items = items || []; }
+        ensureUI();
+        ui.ov.classList.add('hs-open');
+        results = [];
+        ui.input.value = '';
+        render();
+        ui.input.focus();
+    }
+    function closeSearch() { if (ui) ui.ov.classList.remove('hs-open'); }
+
+    document.addEventListener('keydown', function (e) {
+        var isOpen = ui && ui.ov.classList.contains('hs-open');
+        if ((e.ctrlKey || e.metaKey) && /^[kKлЛ]$/.test(e.key)) { e.preventDefault(); if (isOpen) closeSearch(); else openSearch(); return; }
+        if (e.key === 'Escape' && isOpen) { closeSearch(); return; }
+        if (e.key === '/' && !isOpen) {
+            var t = e.target;
+            if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+            e.preventDefault();
+            openSearch();
+        }
+    });
+
+    window.openSearch = openSearch;
+    window.closeSearch = closeSearch;
+})();
+    
+</script>
 </body>
 
 </html>
